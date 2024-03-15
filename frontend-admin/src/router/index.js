@@ -13,7 +13,7 @@ const routes = [
         component: () => import("@/views/NotFound.vue"),
     },
     {
-        path: "/:id",
+        path: "/edit-book/:id",
         name: "book-edit",
         component: () => import("@/views/BookEdit.vue"),
         props: true

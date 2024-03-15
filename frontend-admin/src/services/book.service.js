@@ -4,16 +4,17 @@ class BookService {
         this.api = createApiClient(baseUrl);
     }
     async getAll() {
-        return (await this.api.get("/admin")).data;
+        return (await this.api.get("/find")).data;
     }
     async create(data) {
+        alert("co qua day1");
         return (await this.api.post("/admin", data)).data;
     }
     async deleteAll() {
         return (await this.api.delete("/admin")).data;
     }
     async get(id) {
-        return (await this.api.get(`/admin/${id}`)).data;
+        return (await this.api.get(`/find/${id}`)).data;
     }
     async update(id, data) {
         return (await this.api.put(`/admin/${id}`, data)).data;

@@ -20,7 +20,8 @@
         },
         data() {
             return{
-                book: {     _id: "",
+                book:   {    
+                            _id: "",
                             tensach: null ,
                             hinh: null,
                             theloai: null,

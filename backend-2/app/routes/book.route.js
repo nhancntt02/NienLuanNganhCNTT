@@ -29,12 +29,16 @@ router.route("/customer/:id")
 router.route("/admin")
     .post(book.create)
     .delete(book.deleteAll)
-    .get(book.findAll)
 
 router.route("/admin/:id")
-    .get(book.findOne)
     .put(book.update)
     .delete(book.delete)
+
+router.route("/find")
+    .get(book.findAll)
+
+router.route("/find/:id")
+    .get(book.findOne)
 
 router.route("/order")
     .post(order.create)

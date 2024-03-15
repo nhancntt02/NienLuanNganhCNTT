@@ -3,8 +3,8 @@ const MongoDB = require("../utils/mongodb.util");
 const BookService = require("../services/book.service");
 
 exports.create = async (req, res, next) => {
-    if (!req.body?.masach) {
-        return next(new ApiError(400, "Khong co ma sach"));
+    if (!req.body?.tensach) {
+        return next(new ApiError(400, "Khong co ten sach"));
     } 
 
     try {
@@ -24,9 +24,9 @@ exports.findAll = async (req, res, next) => {
 
     try {
         const bookService = new BookService(MongoDB.client);
-        const { masach } = req.query;
-        if (masach) {
-            documents = await bookService.findByName(masach);
+        const { tensach } = req.query;
+        if (tensach) {
+            documents = await bookService.findByName(tensach);
         } else {
             documents = await bookService.find({});
         }
