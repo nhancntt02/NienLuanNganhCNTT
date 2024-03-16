@@ -1,5 +1,5 @@
 <template>
-    <Books :books="this.sach"/>
+    <Books :books="thisBooks"/>
 </template>
 
 <script>
@@ -13,18 +13,22 @@ export default
     },
     data() 
     {
-        return
-        {
-            sach: [];
+        return {
+            books: []
         };
     },
     computed: {
         bookToStrings() {
-            return this.sach.map((book) => {
+            return this.books.map((book) => {
                 const {_id, tensach, hinh, theloai, sotrang, nxb, gia, soquyen, ngonngu } = book;
                 return [_id, tensach, hinh, theloai, sotrang, nxb, gia, soquyen, ngonngu].join("");
             });
         },
+
+        thisBooks() {
+            return this.books;
+        }
+
     },
     methods:
     {
@@ -32,16 +36,21 @@ export default
         {
             try 
             {
-                this.sach = await BookService.getAll();
+                this.books = await BookService.getAll();
+                console.log(this.books);
             } 
             catch (error) 
             {
                 console.log(error);
             }
         },
+
+        refreshList() {
+            this.retrieveBooks();
+        },
     },
     mounted() {
-        this.retrieveBooks();
+        this.refreshList();
     },
 };
 </script>
