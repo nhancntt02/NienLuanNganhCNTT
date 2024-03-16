@@ -89,8 +89,8 @@
         // Chuyển các đối tượng contact thành chuỗi để tiện cho tìm kiếm.
         bookStrings() {
             return this.books.map((book) => {
-                const {tensach, hinh, theloai, sotrang, nxb, gia, soquyen, ngonngu } = book;
-                return [tensach, hinh, theloai, sotrang, nxb, gia, soquyen, ngonngu].join("");
+                const {tensach} = book;
+                return [tensach].join();
             });
         },
 
@@ -100,8 +100,9 @@
                 return this.books;
             }
             return this.books.filter((_book, index) => {
-                this.bookStrings[index].includes(this.searchText)
+                return this.bookStrings[index].includes(this.searchText)
             });
+
             
         },
 
