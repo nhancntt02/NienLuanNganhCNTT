@@ -7,7 +7,6 @@ class BookService {
         return (await this.api.get("/find")).data;
     }
     async create(data) {
-        alert("co qua day1");
         return (await this.api.post("/admin", data)).data;
     }
     async deleteAll() {

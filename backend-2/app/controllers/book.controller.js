@@ -21,7 +21,6 @@ exports.create = async (req, res, next) => {
 
 exports.findAll = async (req, res, next) => {
     let documents = [];
-
     try {
         const bookService = new BookService(MongoDB.client);
         const { tensach } = req.query;

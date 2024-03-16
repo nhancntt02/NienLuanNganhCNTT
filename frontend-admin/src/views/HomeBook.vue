@@ -1,9 +1,7 @@
 <template>
     <div class="page row">
         <div class="col-md-10">
-            <h1>Nơi có thanh tìm kiếm
-
-            </h1>
+            <SearchBook v-model="searchText"/>
         </div>
         <div class="mt-3 col-md-6">
             <h4>
@@ -15,7 +13,7 @@
                 :books="filteredBooks"
                 v-model:activeIndex="activeIndex"
             />
-            <p v-else>Không có liên hệ nào.</p>
+            <p v-else>Không có sách nào.</p>
             
         
         <!-- ----------------------------------------------------------------- -->
@@ -66,8 +64,10 @@
  import BookList from "@/components/BookList.vue";
  import BookCard from "@/components/BookCard.vue";
  import BookService from "@/services/book.service";
+ import SearchBook from "@/components/InputSearch.vue";
  export default {
     components: {
+        SearchBook,
         BookList,
         BookCard,
     },
@@ -93,9 +93,16 @@
                 return [tensach, hinh, theloai, sotrang, nxb, gia, soquyen, ngonngu].join("");
             });
         },
+
         // Trả về các contact có chứa thông tin cần tìm kiếm.
         filteredBooks() { 
-            return this.books;
+            if(!this.searchText){
+                return this.books;
+            }
+            return this.books.filter((_book, index) => {
+                this.bookStrings[index].includes(this.searchText)
+            });
+            
         },
 
         activeBook() {

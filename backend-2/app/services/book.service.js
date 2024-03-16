@@ -39,9 +39,9 @@ class BookService {
             return await cursor.toArray();
         }
 
-    async findByName(masach) {
+    async findByName(tensach) {
         return await this.Book.find({
-            name: { $regex: new RegExp(masach), $options: "i" },
+            tensach: { $regex: new RegExp(tensach), $options: "i" },
         });
     }
 
@@ -50,7 +50,6 @@ class BookService {
             _id: id
         });
     }
-
     async update(id, payload) {
         const filter = {
             _id: id,
