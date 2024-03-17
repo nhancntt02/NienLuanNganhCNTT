@@ -12,12 +12,16 @@ const routes = [
     //     name: "notfound",
     //     component: () => import("@/views/NotFound.vue"),
     // },
-    // {
-    //     path: "/:id",
-    //     name: "book-edit",
-    //     component: () => import("@/views/BookEdit.vue"),
-    //     props: true
-    // },
+    {
+        path: "/login",
+        name: "loginPage",
+        component: () => import("@/view/Login.vue"),
+    },
+    {
+        path: "/register",
+        name: "registerPage",
+        component: () => import("@/view/Register.vue"),
+    },
     // {
     //     path: "/add-book",
     //     name: "book-add",

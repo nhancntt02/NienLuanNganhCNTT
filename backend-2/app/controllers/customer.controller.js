@@ -8,7 +8,9 @@ exports.create = async (req, res, next) => {
         const document = await customerService.create(req.body);
         if(document == null)
         {
-            return res.send("Tài khoản đã tồn tại");
+            return next(
+                new ApiError(400, "Tên đăng nhập đã tồn tại")
+            );
         }
         return res.send("Tài khoản đã được tạo thành công");
     } catch (error) {
@@ -28,7 +30,7 @@ exports.login = async (req, res, next) => {
         else
         {
             return next(
-                new ApiError(400, `Đăng nhập thất bại!`)
+                new ApiError(400, `Tên đăng nhập hoặc mật khẩu sai`)
             );
         }
     } catch (error) {

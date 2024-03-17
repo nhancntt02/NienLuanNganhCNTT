@@ -8,11 +8,11 @@ class CustomerService {
 
     extractCustomerData(payload) {
         const customer = {
-            _id: payload.username,
-            password: payload.password,
-            hoten: payload.hoten,
-            diachi: payload.diachi,
-            sdt: payload.sdt,
+            _id: payload.username.toLowerCase(),
+            password: payload.passwordtoLowerCase(),
+            hoten: payload.name,
+            diachi: payload.address,
+            sdt: payload.phone,
 
         };
         Object.keys(customer).forEach(
@@ -22,8 +22,8 @@ class CustomerService {
     }
     extractLoginData(payload) {
         const user = {
-            _id: payload.username,
-            password: payload.password,
+            _id: payload.username.toLowerCase(),
+            password: payload.password.toLowerCase(),
         };
         Object.keys(user).forEach(
             (key) => user[key] === undefined && delete user[key]

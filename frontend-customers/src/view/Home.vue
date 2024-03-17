@@ -1,12 +1,17 @@
 <template>
-    <Books :books="thisBooks"/>
+    <Books :books="this.books"/>
 </template>
 
 <script>
 import BookService from "@/services/book.service";
 import Books from "@/components/Books.vue";
+import {useUser} from "@/stores/main.vue";
 export default
 {
+    setup(){
+        const mainUser = useUser();
+        return {mainUser};
+    },
     components:
     {
         Books,
@@ -25,10 +30,6 @@ export default
             });
         },
 
-        thisBooks() {
-            return this.books;
-        }
-
     },
     methods:
     {
@@ -37,7 +38,6 @@ export default
             try 
             {
                 this.books = await BookService.getAll();
-                console.log(this.books);
             } 
             catch (error) 
             {

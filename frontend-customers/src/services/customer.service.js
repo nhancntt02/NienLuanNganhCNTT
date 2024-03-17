@@ -1,14 +1,14 @@
 import createApiClient from "./api.service";
 class CustomerService {
-    constructor(baseUrl = "/api/customers") {
+    constructor(baseUrl = "/api/datas/") {
         this.api = createApiClient(baseUrl);
     }
-    // async getAll() {
-    //     return (await this.api.get("/admin")).data;
-    // }
-    // async create(data) {
-    //     return (await this.api.post("/admin", data)).data;
-    // }
+    async login(data) {
+        return (await this.api.post("/customer/login",data)).data;
+    }
+    async create(data) {
+        return (await this.api.post("/customer", data)).data;
+    }
     // async deleteAll() {
     //     return (await this.api.delete("/admin")).data;
     // }

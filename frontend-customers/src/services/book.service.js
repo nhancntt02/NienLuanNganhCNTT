@@ -6,9 +6,9 @@ class BookService {
     async getAll() {
         return (await this.api.get("/find")).data;
     }
-    // async create(data) {
-    //     return (await this.api.post("/admin", data)).data;
-    // }
+    async create(data) {
+        return (await this.api.post("/customer", data)).data;
+    }
     // async deleteAll() {
     //     return (await this.api.delete("/admin")).data;
     // }
