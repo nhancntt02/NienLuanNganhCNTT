@@ -6,7 +6,9 @@
         <div class="mt-3 col-md-6">
             <h4>
                 Danh Sach Book
-                <i class="fas fa-book"></i>
+                <router-link to="/" >
+                    <i class="fas fa-book"></i>
+                </router-link>
             </h4>
             <BookList
                 v-if="filteredBooksCount > 0"

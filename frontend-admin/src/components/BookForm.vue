@@ -25,24 +25,24 @@
             <ErrorMessage name="name" class="error-feedback"/>
         </div>
         <div class="form-group">
-            <label for="email">Hình:</label>
+            <label for="image">Hình:</label>
             <Field
-                name="email"
-                type="email"
+                name="image"
+                type="text"
                 class="form-control"
                 v-model="bookLocal.hinh"
             />
-            <ErrorMessage name="email" class="error-feedback"/>
+            <ErrorMessage name="image" class="error-feedback"/>
         </div>
         <div class="form-group">
-            <label for="address">Thể loại:</label>
+            <label for="type">Thể loại:</label>
             <Field
-                name="address"
+                name="type"
                 type="text"
                 class="form-control"
                 v-model="bookLocal.theloai"
             />
-            <ErrorMessage name="address" class="error-feedback"/>
+            <ErrorMessage name="type" class="error-feedback"/>
         </div>
         <div class="form-group">
             <label for="sotrang">Số trang:</label>
@@ -59,7 +59,7 @@
             <label for="nxb">Nhà xuất bản:</label>
             <Field
                 name="nxb"
-                type="tel"
+                type="text"
                 class="form-control"
                 v-model="bookLocal.nxb"
             />
@@ -102,6 +102,14 @@
         <div class="form-group">
                 <button class="btn btn-primary"><i class="fas fa-save"></i> Lưu</button>
                 <button 
+                    v-if="type == 'add'"
+                    type="button"
+                    class="ml-2 btn btn-secondary"
+                    
+                >
+                    <router-link to="/"><i class="fas fa-redo"></i> Trở về</router-link>
+                </button>
+                <button 
                     v-if="type == 'edit'"
                     type="button"
                     class="ml-2 btn btn-danger"
@@ -130,22 +138,42 @@
         },
         data() {
             const contactFormSchema = yup.object().shape({
-                // name: yup
-                //     .string()
-                //     .required("Tên phải có giá trị.")
-                //     .min(2, "Tên phải ít nhất 2 ký tự.")
-                //     .max(50, "Tên có nhiều nhất 50 ký tự."),
-                // email: yup
-                //     .string()
-                //     .email("E-mail không đúng.")
-                //     .max(50, "E-mail tối đa 50 ký tự."),
-                // address: yup.string().max(100, "Địa chỉ tối đa 100 ký tự."),
-                // phone: yup
-                //     .string()
-                //     .matches(
-                //         /((09|03|07|08|05)+([0-9]{8})\b)/g,
-                //         "Số điện thoại không hợp lệ."
-                // )
+                id: yup
+                    .string()
+                    .required("Mã sách phải có giá trị.")
+                    .min(2, "Mã sách phải ít nhất 2 ký tự.")
+                    .max(50, "Mã sách có nhiều nhất 50 ký tự."),
+                name: yup
+                    .string()
+                    .required("Tên sách phải có giá trị.")
+                    .min(2, "Tên sách phải ít nhất 2 ký tự."),
+                image: yup
+                    .string()
+                    .required("Phải có ảnh"),
+                type: yup
+                    .string()
+                    .required("Thể loại sách phải có giá trị"),
+                sotrang: yup
+                    .number()
+                    .required("Số trang phải có giá trị")
+                    .min(10, "Sách phải có ít nhất 10 trang")
+                    .max(9999, "Sách tối đa có 9999 trang"),
+                nxb: yup
+                    .string()
+                    .required("Tên nhà xuất bản phải có giá trị"),
+                price: yup
+                    .number()
+                    .required("Giá sách phải có giá trị")
+                    .min(1000, "Giá sách phải ít nhất 1000")
+                    .max(100000000, "Giá sách không vượt quá 100000000"),
+                sq: yup
+                    .number()
+                    .required("Số quyển phải có giá trị")
+                    .min(1, "Phải có ít nhất 1 quyển")
+                    .max(100, "Chứa tối đa được 100 quyển"),
+                nn: yup
+                    .string()
+                    .required("Ngôn ngữ phải có giá trị"),
             });
             return {
                 bookLocal: this.book,
@@ -159,7 +187,8 @@
             },
             deleteBook() {
                 this.$emit("delete:book", this.bookLocal.id);
-            }
+            },
+
         },
     };
 </script>
