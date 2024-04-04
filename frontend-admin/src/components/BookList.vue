@@ -14,7 +14,7 @@
 </script>
 
 <template>
-    <ul class="list-group">
+    <ul class="list-group" style="height: 350px;overflow: auto;">
         <li 
             class="list-group-item"
             v-for="(book, index) in books"
