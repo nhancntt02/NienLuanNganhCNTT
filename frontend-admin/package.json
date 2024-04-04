@@ -16,6 +16,7 @@
     "popper.js": "^1.16.1",
     "vee-validate": "^4.12.6",
     "vue": "^3.4.15",
+    "vue-file-upload": "^0.1.12",
     "vue-router": "^4.3.0",
     "yup": "^1.4.0"
   },

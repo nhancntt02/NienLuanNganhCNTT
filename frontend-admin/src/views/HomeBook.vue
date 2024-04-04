@@ -1,9 +1,9 @@
 <template>
     <div class="page row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <SearchBook v-model="searchText"/>
         </div>
-        <div class="mt-3 col-md-6">
+        <div class="mt-3 col-md-5">
             <h4>
                 Danh Sach Book
                 <router-link to="/" >
@@ -31,7 +31,7 @@
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
 
-                <button
+                <button 
                     class="btn btn-sm btn-danger"
                     @click="removeAllBooks"
                 >
@@ -40,7 +40,7 @@
             </div>
         </div>
         <!-- ----------------------------------------------------------------- -->
-        <div class="mt-3 col-md-6">
+        <div class="mt-3 col-md-7">
             <div v-if="activeBook != null">
                 <h4>
                     Thông tin chi tiết sách
@@ -161,6 +161,6 @@
  <style scoped>
  .page {
     text-align: left;
-    max-width: 750px;
+    max-width: 1000px;
  }
  </style>

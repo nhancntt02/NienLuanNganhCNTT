@@ -28,11 +28,16 @@
             <label for="image">Hình:</label>
             <Field
                 name="image"
-                type="text"
-                class="form-control"
+                type="url"
+                class="form-control-file"
+                id="image"
                 v-model="bookLocal.hinh"
             />
+            
             <ErrorMessage name="image" class="error-feedback"/>
+        </div>
+        <div class="form-group">
+            <img :src="bookLocal.hinh" style="width: 400px;height: auto;">
         </div>
         <div class="form-group">
             <label for="type">Thể loại:</label>
@@ -70,7 +75,8 @@
             <label for="price">Gia:</label>
             <Field
                 name="price"
-                type="number"
+                type="text"
+                inputmode="numeric" 
                 class="form-control"
                 v-model="bookLocal.gia"
             />
@@ -129,7 +135,7 @@
         components: {
             Form,
             Field,
-            ErrorMessage
+            ErrorMessage,
         },
         emits: ["submit:book", "delete:book"],
         props: {
@@ -147,9 +153,9 @@
                     .string()
                     .required("Tên sách phải có giá trị.")
                     .min(2, "Tên sách phải ít nhất 2 ký tự."),
-                image: yup
-                    .string()
-                    .required("Phải có ảnh"),
+                // image: yup
+                //     .string()
+                //     .required("Phải có ảnh"),
                 type: yup
                     .string()
                     .required("Thể loại sách phải có giá trị"),
@@ -188,7 +194,7 @@
             deleteBook() {
                 this.$emit("delete:book", this.bookLocal.id);
             },
-
+            
         },
     };
 </script>
