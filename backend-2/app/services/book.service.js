@@ -42,7 +42,7 @@ class BookService {
     async findByName(tenSach) {
         return await this.Book.find({
             tensach: { $regex: new RegExp(tenSach), $options: "i" },
-        });
+        }).toArray();
     }
 
     async findById(id) {

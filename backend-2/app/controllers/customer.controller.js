@@ -23,19 +23,25 @@ exports.create = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     try {
         const customerService = new CustomerService(MongoDB.client);
-        const document = await customerService.login(req.body);
+        const user = await customerService.findOne(req.body.username);
+        if(!user){
+            return next(
+                new ApiError(405, `Tên đăng nhập không đúng.`)
+            );
+        }
+        const document = await customerService.login(user._id,req.body.password);
         if(document){
             return res.send(document);
         }
         else
         {
             return next(
-                new ApiError(400, `Tên đăng nhập hoặc mật khẩu sai`)
+                new ApiError(400, `Mật khẩu không đúng.`)
             );
         }
     } catch (error) {
         return next(
-            new ApiError(500, `Error`)
+            new ApiError(500, `Error when login`)
         );
     }
 };
@@ -55,7 +61,7 @@ exports.update = async (req, res, next) => {
         return res.send({message: "Contact was update successfully"});
     } catch (error) {
         return next (
-            new ApiError(500,  `Error  updating contact with id=${req.params.id}` )
+            new ApiError(500,  `Error updating contact with id=${req.params.id}` )
         );
     }
 };

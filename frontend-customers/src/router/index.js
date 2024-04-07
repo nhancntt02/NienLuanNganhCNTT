@@ -22,8 +22,12 @@ const routes = [
         name: "bookinfo",
         component: () => import("@/view/BookInfo.vue"),
         props: true,
-    }
-    
+    },
+    {
+        path: "/custome/info",
+        name: "customerinfo",
+        component: () => import("@/view/CustomerInfo.vue"),
+    },
 
 ];
 const router = createRouter({

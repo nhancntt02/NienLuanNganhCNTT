@@ -12,8 +12,9 @@
             <li class="nav-item"><a class="nav-link" href="">Giỏ hàng</a></li>
         </ul>
         <ul v-else class="col navbar-nav d-flex justify-content-end">
-            <li class="nav-item"><a class="nav-link" href="#" @click="logout">Đăng xuất</a></li>
+            <li class="nav-item"><router-link :to="{name:'customerinfo'}" class="nav-link">Tài khoản</router-link></li>
             <li class="nav-item"><a class="nav-link" href="">Giỏ hàng</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" @click="logout">Đăng xuất</a></li>
         </ul>
     </nav>
 </template>

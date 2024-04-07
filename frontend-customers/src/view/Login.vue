@@ -69,7 +69,7 @@ export default {
         async login(){
             try {
                     const user = await CustomerService.login(this.User);
-                    sessionStorage.setItem('userName', user);
+                    sessionStorage.setItem('userName', user._id);
                     this.$router.replace({path: "/home"});
                 } catch (error) {
                     this.message = error.response.data.message;

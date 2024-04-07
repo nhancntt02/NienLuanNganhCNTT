@@ -6,21 +6,11 @@ class BookService {
     async getAll() {
         return (await this.api.get("/find")).data;
     }
-    async create(data) {
-        return (await this.api.post("/customer", data)).data;
+    async getByName(tensach) {
+        return (await this.api.get("/find?tensach=" + tensach)).data;
     }
-    // async deleteAll() {
-    //     return (await this.api.delete("/admin")).data;
-    // }
-    // async get(id) {
-    //     return (await this.api.get(`/admin/${id}`)).data;
-    // }
-    // async update(id, data) {
-    //     return (await this.api.put(`/admin/${id}`, data)).data;
-
-    // }
-    // async delete(id) {
-    //     return (await this.api.delete(`/admin/${id}`)).data;
-    // }
+    async get(id) {
+        return (await this.api.get(`/find/${id}`)).data;
+    }
 }
 export default new BookService()

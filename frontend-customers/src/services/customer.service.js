@@ -9,18 +9,11 @@ class CustomerService {
     async create(data) {
         return (await this.api.post("/customer", data)).data;
     }
-    // async deleteAll() {
-    //     return (await this.api.delete("/admin")).data;
-    // }
-    // async get(id) {
-    //     return (await this.api.get(`/admin/${id}`)).data;
-    // }
-    // async update(id, data) {
-    //     return (await this.api.put(`/admin/${id}`, data)).data;
-
-    // }
-    // async delete(id) {
-    //     return (await this.api.delete(`/admin/${id}`)).data;
-    // }
+    async get(id) {
+        return (await this.api.get(`/customer/${id}`)).data;
+    }
+    async update(id, data) {
+        return (await this.api.put(`/customer/${id}`, data)).data;
+    }
 }
 export default new CustomerService()
