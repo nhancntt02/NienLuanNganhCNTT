@@ -39,9 +39,9 @@ class BookService {
             return await cursor.toArray();
         }
 
-    async findByName(tensach) {
+    async findByName(tenSach) {
         return await this.Book.find({
-            tensach: { $regex: new RegExp(tensach), $options: "i" },
+            tensach: { $regex: new RegExp(tenSach), $options: "i" },
         });
     }
 

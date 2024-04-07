@@ -1,6 +1,5 @@
 <template>
-    <footer style="margin-top: auto;" 
-    class="bg-primary">
+    <div class="bg-primary mt-auto">
         This is page footer!
-    </footer>
+    </div>
 </template>

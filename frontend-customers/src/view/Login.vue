@@ -1,17 +1,18 @@
 <template>
-    <Form @submit="login" :validation-schema="userFormSchema" style="max-width: 50%; margin: 20px auto; background: #EFF7FF;" class="p-3 border rounded border-primary">
+    <div style="display: flex; justify-content: center; align-items: center; margin: auto 0;" >
+        <Form @submit="login" :validation-schema="userFormSchema" style="width: 45%;background: #EFF7FF;" class="p-3 border rounded border-primary">
         <div class="text-center my-4 fs-3 pb-2 text-primary border-bottom border-3 border-primary">Đăng nhập</div>
         <div class="row mb-4 mx-2 px-3 pt-3">
-            <label for="username" class="col-sm-3 col-form-label fw-bold">Tên đăng nhập:</label>
-            <div class="col-sm-9">
-                <Field name="username" type="text" class="form-control" v-model="User.username"/>
+            <label for="username" class="col-sm-4 col-form-label fw-bold">Tên đăng nhập:</label>
+            <div class="col-sm-8">
+                <Field name="username" type="text" class="form-control" v-model="User.username" placeholder="Nhập vào tên đăng nhập"/>
                 <ErrorMessage name="username" class="error-feedback" />
             </div>
         </div>
         <div class="row mb-4 p-3 mx-2">
-            <label for="password" class="col-sm-3 col-form-label fw-bold">Mật khẩu:</label>
-            <div class="col-sm-9">
-                <Field name="password" type="password" class="form-control" v-model="User.password"/>
+            <label for="password" class="col-sm col-form-label fw-bold">Mật khẩu:</label>
+            <div class="col-sm-8">
+                <Field name="password" type="password" class="form-control" v-model="User.password" placeholder="Nhập vào mật khẩu"/>
                 <ErrorMessage name="password" class="error-feedback" />
             </div>
         </div>
@@ -21,6 +22,7 @@
             <span class="ms-3">Bạn chưa có tài khoản? </span><router-link :to="{name: 'registerPage'}">Đăng Ký</router-link>
         </div>
     </Form>
+    </div>
 </template>
 <style scoped>
     .error-feedback {
@@ -67,7 +69,7 @@ export default {
         async login(){
             try {
                     const user = await CustomerService.login(this.User);
-                    this.mainUser.setUsername(user._id);
+                    sessionStorage.setItem('userName', user);
                     this.$router.replace({path: "/home"});
                 } catch (error) {
                     this.message = error.response.data.message;

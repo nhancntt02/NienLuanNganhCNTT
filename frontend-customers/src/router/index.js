@@ -7,11 +7,6 @@ const routes = [
         name: "homeBook",
         component: Home,
     },
-    // {
-    //     path: "/:pathMatch(.*)*",
-    //     name: "notfound",
-    //     component: () => import("@/views/NotFound.vue"),
-    // },
     {
         path: "/login",
         name: "loginPage",
@@ -22,11 +17,12 @@ const routes = [
         name: "registerPage",
         component: () => import("@/view/Register.vue"),
     },
-    // {
-    //     path: "/add-book",
-    //     name: "book-add",
-    //     component: () => import("@/views/BookAdd.vue"),
-    // }
+    {
+        path: "/bookinfo/:bookId",
+        name: "bookinfo",
+        component: () => import("@/view/BookInfo.vue"),
+        props: true,
+    }
     
 
 ];

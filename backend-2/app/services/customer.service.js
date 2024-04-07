@@ -4,12 +4,11 @@ class CustomerService {
     constructor(client) {
         this.Customer = client.db().collection("customers");
     }
-    // Định nghĩa các phương thức truy xuất CSDL sử dụng mongodb API
 
     extractCustomerData(payload) {
         const customer = {
             _id: payload.username.toLowerCase(),
-            password: payload.passwordtoLowerCase(),
+            password: payload.password.toLowerCase(),
             hoten: payload.name,
             diachi: payload.address,
             sdt: payload.phone,

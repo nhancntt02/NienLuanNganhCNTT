@@ -10,20 +10,16 @@ export default {
 </script>
 
 <template>
-  <div id="" class="container">
     <AppHeader />
-    <div>
-      <router-view />
-    </div>
+    <router-view />
     <AppFooter />
-  </div>
 </template>
 <style>
-.page {
-  max-width: 400px;
-  margin: auto;
-}
-#app{
-  background-color: #FAF9F6;
-}
+  #app{
+    background-color: #f7eac3;
+    min-height: 100vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
 </style>
