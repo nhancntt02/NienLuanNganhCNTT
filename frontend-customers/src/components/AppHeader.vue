@@ -6,40 +6,81 @@
             </router-link>
         </div>
         <div class="col-6"></div>
-        <ul v-if="!getUserName"  class="col navbar-nav d-flex justify-content-end">
-                <li class="nav-item mx-1"><router-link :to="{name:'loginPage'}" class="nav-link">Đăng nhập</router-link></li>
-                <li class="nav-item"><router-link :to="{name:'registerPage'}" class="nav-link">Đăng ký</router-link></li>
-            <li class="nav-item"><a class="nav-link" href="">Giỏ hàng</a></li>
+        <ul v-if="!getUserName" class="col navbar-nav d-flex justify-content-end">
+            <li class="nav-item mx-1"><router-link :to="{ name: 'loginPage' }" class="nav-link">Đăng nhập</router-link>
+            </li>
+            <li class="nav-item"><router-link :to="{ name: 'registerPage' }" class="nav-link">Đăng ký</router-link></li>
+            <li class="nav-item">
+                <router-link :to="{name: 'cart'}" class="nav-link position-relative" href="">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span v-if="cartCount != 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ cartCount }}
+                    </span>
+                </router-link>
+            </li>
         </ul>
         <ul v-else class="col navbar-nav d-flex justify-content-end">
-            <li class="nav-item"><router-link :to="{name:'customerinfo'}" class="nav-link">Tài khoản</router-link></li>
-            <li class="nav-item"><a class="nav-link" href="">Giỏ hàng</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" @click="logout">Đăng xuất</a></li>
+            <li class="nav-item"><router-link :to="{ name: 'customerinfo' }" class="nav-link">Tài khoản</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link :to="{name: 'cart'}" class="nav-link position-relative" href="">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span v-if="cartCount != 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ cartCount }}
+                    </span>
+                </router-link>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#" @click="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
         </ul>
     </nav>
 </template>
 
 <script>
-    export default{
-        data() {
-            return{
-                userName: '',
-            }
+import CartService from "@/services/cart.service";
+import CustomerService from "@/services/customer.service";
+export default {
+    data() {
+        return {
+            userName: '',
+            cartCount: 0,
+            ipAddr:"",
+        }
+    },
+    computed: {
+        getUserName() {
+            this.userName = sessionStorage.getItem('userName');
+            return this.userName;
         },
-        computed: {
-            getUserName() {
-                this.userName = sessionStorage.getItem('userName');
-                return this.userName;
-            }
-        },
-        methods:{
-            logout() {
+    },
+    methods: {
+        logout() {
             if (confirm('Bạn có chắc muốn đăng xuất không?')) {
                 sessionStorage.removeItem("userName");
                 this.userName = "";
+                this.$router.push({ name: "homeBook" });
                 window.location.reload();
             }
-        }
         },
-    };
+        async getGuestIp(){
+            this.ipAddr = await CustomerService.getIp();
+            sessionStorage.setItem("guest",this.ipAddr);
+            this.getCartCount();
+        },
+        async getCartCount(){
+            if(this.userName)
+            {
+                const cart = await CartService.get(this.userName);
+                this.cartCount = cart.length;
+            }
+            else
+            {
+                const cart = await CartService.get(sessionStorage.getItem("guest"));
+                this.cartCount = cart.length;
+            }
+        }
+    },
+    mounted(){
+        this.getGuestIp();
+    }
+};
 </script>

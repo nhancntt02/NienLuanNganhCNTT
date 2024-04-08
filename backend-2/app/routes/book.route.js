@@ -13,12 +13,12 @@ router.route("/cart/:username")
     .put(cart.update)
     .delete(cart.deleteAll)
     
-router.route("/cart/:username&&:bookId")
+router.route("/cart/:username/:bookId")
     .delete(cart.delete)
 
 router.route("/customer")
     .post(customer.create)
-
+    .get(customer.getIP);
 router.route("/customer/login")
     .post(customer.login);
 

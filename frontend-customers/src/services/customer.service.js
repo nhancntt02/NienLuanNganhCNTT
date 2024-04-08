@@ -15,5 +15,8 @@ class CustomerService {
     async update(id, data) {
         return (await this.api.put(`/customer/${id}`, data)).data;
     }
+    async getIp(){
+        return (await this.api.get(`/customer`)).data;
+    }
 }
 export default new CustomerService()

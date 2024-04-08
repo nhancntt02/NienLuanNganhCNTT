@@ -3,19 +3,15 @@ class CartService {
     constructor(client) {
         this.Cart = client.db().collection("cart");
     }
-// Định nghĩa các phương thức truy xuất CSDL sử dụng mongodb API
-
     extractCartData(username, payload) {
 
         const cart = {
             username: username,
             bookId: payload.id,
             price: payload.price,
-            quantily: payload.quantily,
-            status: payload.status
+            quantity: payload.quantity,
         };
         
-        // Remove undefined fields
         Object.keys(cart).forEach(
             (key) => cart[key] === undefined && delete cart[key]
         );
@@ -35,10 +31,13 @@ class CartService {
         const  cursor = await this.Cart.find({username: username});
         return await cursor.toArray();
     }
-
+    async findOne(username,bookId){
+        return await this.Cart.findOne({username: username , bookId :bookId});
+    }
     async update(username, payload) {
         const filter = {
-            _id: username,
+            username: username,
+            bookId:payload.bookId,
         };
         const update = this.extractCartData(username, payload);
         const result = await this.Cart.findOneAndUpdate(
@@ -60,10 +59,10 @@ class CartService {
     }
 
     async deleteAll(username) {
-        const result = await this.Cart.findOneAndDelete({
+        const result = await this.Cart.deleteMany({
             username: username,
         });
-        return result;
+        return result.deletedCount;
     }
 }
 module.exports = CartService;

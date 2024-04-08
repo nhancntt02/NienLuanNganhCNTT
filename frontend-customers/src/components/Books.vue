@@ -2,8 +2,10 @@
     <div>
         <div v-for="(row, index) in rows" :key="index" class="row">
             <div v-for="(book, j) in row" :key="book._id"
-                class="book-container col-xl col-md-6 col-12 border rounded p-2 m-2 bg-light text-center">
-                <router-link :to="{name:'bookinfo',params:{bookId:book._id}}"><img class="img-fluid" style="height: 200px; width: 180px; margin: 0 auto;" :src="book.hinh" alt="book_image"></router-link>
+                class="book-container col-xl col-md-6 col-12 border rounded bg-light text-center">
+                <router-link :to="{ name: 'bookinfo', params: { bookId: book._id } }"><img class="img-fluid"
+                        style="height: 200px; width: 160px; margin: 0 auto;" :src="book.hinh"
+                        alt="book_image"></router-link>
                 <div class="book-info">
                     <div>
                         {{ book.tensach }}
@@ -12,8 +14,16 @@
                         {{ book.gia }}đ
                     </div>
                 </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <button class="btn btn-sm btn-outline-primary" @click="addToCard(book)">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success">
+                        Mua ngay
+                    </button>
+                </div>
             </div>
-            <div v-for="k in 4 - row.length" :key="k" class="col-xl col-md-6 col-12 p-2 m-2"></div>
+            <div v-for="k in 4 - row.length" :key="k" class="col-xl col-md-6 col-12"></div>
         </div>
     </div>
 </template>
@@ -28,9 +38,19 @@
 }
 </style>
 <script>
+import CartService from "@/services/cart.service";
 export default {
     props: {
         books: { type: Array, default: () => [] }
+    },
+    data(){
+        return{
+            cartItem: {
+                id:"",
+                price:"",
+                quantity:1,
+            },
+        }
     },
     computed: {
         rows() {
@@ -46,8 +66,33 @@ export default {
     },
     methods: {
         goToBookDetail(id) {
-            this.$router.push({name: "bookinfo",params:{bookId: id }});
+            this.$router.push({ name: "bookinfo", params: { bookId: id } });
+        },
+        async addToCard(book){
+            const userName = sessionStorage.getItem("userName");
+            this.cartItem.id = book._id;
+            this.cartItem.price=book.gia;
+            if(userName)
+            {
+                try{
+                    const result = await CartService.create(userName,this.cartItem);
+                    alert('Thêm vào giỏ hàng thành công!');
+                    location.reload();
+                }
+                catch(error){
+                    console.log(error);
+                }
+            }
+            else{
+                const guest = sessionStorage.getItem("guest");
+                const result = await CartService.create(guest,this.cartItem);
+                alert('Thêm vào giỏ hàng thành công!');
+                location.reload();
+            }
         }
+    },
+    mounted(){
+        sessionStorage.removeItem('tempCart');
     }
 };
 </script>

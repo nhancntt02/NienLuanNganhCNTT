@@ -1,5 +1,5 @@
 <template>
-    <form class="d-flex mt-2 justify-content-center">
+    <form class="d-flex my-1 justify-content-center">
         <input type="text" class="form-control" style="width: 50%;" v-model="searchText" placeholder="Nhập vào tên sách cần tìm kiếm">
     </form>
     <Books :books="filteredBooks"/>

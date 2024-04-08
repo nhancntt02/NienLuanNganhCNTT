@@ -74,5 +74,10 @@ class CustomerService {
         const result = await this.Customer.findOne({_id:id});
         return result;
     }
+    async decryptPassword(id){
+        const customers = await this.Customer.findOne({_id:id});
+        customers.password = CryptoJS.AES.decrypt(customers.password, "secretKey655679", { iv: "secretKey655679IV" }).toString(CryptoJS.enc.Utf8);
+        return customers.password;
+    }
 }
 module.exports = CustomerService;

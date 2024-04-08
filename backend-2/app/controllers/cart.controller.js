@@ -5,9 +5,18 @@ const CartService = require("../services/cart.service");
 exports.create = async (req, res, next) => {
     try {
         const cartService = new CartService(MongoDB.client);
-        const document = await cartService.create(req.params.username, req.body);
-        
-        return res.send(document);
+        const exitscart = await cartService.findOne(req.params.username,req.body.id);
+        if(exitscart)
+        {
+            exitscart.quantity += req.body.quantity;
+            const document = await cartService.update(req.params.username, exitscart);
+            return res.send(document);
+        }
+        else
+        {
+            const document = await cartService.create(req.params.username, req.body);
+            return res.send(document);
+        }      
     } catch (error) {
         return next(
             new ApiError(500, "An error occurred while creating the cart")
@@ -44,7 +53,7 @@ exports.update = async (req, res, next) => {
         return res.send({message: "Cart was update successfully"});
     } catch (error) {
         return next (
-            new ApiError(500,  `Error  updating book with id=${req.params.username}` )
+            new ApiError(500,  `Error updating book with id=${req.params.username}` )
         );
     }
 };
@@ -63,10 +72,10 @@ exports.delete = async (req, res, next) => {
     }
 }
 
-exports.deleteAll = async (_req, res, next) => {
+exports.deleteAll = async (req, res, next) => {
     try {
         const contactsService = new CartService(MongoDB.client);
-        const deleteCount = await contactsService.deleteAll(_req.params.username);
+        const deleteCount = await contactsService.deleteAll(req.params.username);
         return res.send({
             message : `${deleteCount} cart were deleted`
         });

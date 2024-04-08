@@ -19,7 +19,9 @@ exports.create = async (req, res, next) => {
         );
     }
 };
-
+exports.getIP = async (req, res, next) =>{
+    return res.send(req.connection.remoteAddress);
+}
 exports.login = async (req, res, next) => {
     try {
         const customerService = new CustomerService(MongoDB.client);
@@ -50,18 +52,24 @@ exports.update = async (req, res, next) => {
     if (Object.keys(req.body).length === 0) {
         return next(new ApiError(400,'Data to update can not be empty'));
     }
-
     try {
         const customerService = new CustomerService(MongoDB.client);
-        const document = await customerService.update(req.params.id, req.body);
-
-        if(!document) {
-            return next(new ApiError(404, 'Contact not found'));
+        if(req.body.old_password)
+        {
+            const password = await customerService.decryptPassword(req.params.id);
+            if(req.body.old_password != password)
+            {
+                return next(new ApiError(404, 'Mật khẩu không đúng'));
+            }
         }
-        return res.send({message: "Contact was update successfully"});
+        const document = await customerService.update(req.params.id, req.body);
+        if(!document) {
+            return next(new ApiError(404, 'Customer not found'));
+        }
+        return res.send({message: "Customer was update successfully"});
     } catch (error) {
         return next (
-            new ApiError(500,  `Error updating contact with id=${req.params.id}` )
+            new ApiError(500,  `Error updating Customer with id=${req.params.id}` )
         );
     }
 };
