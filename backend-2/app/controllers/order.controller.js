@@ -15,3 +15,29 @@ exports.create = async (req, res, next) => {
         );
     }
 }
+exports.getAll = async (req, res, next) => {
+    try {
+        const orderService = new OrderService(MongoDB.client);
+        const document = await orderService.getAllOrders();
+        res.send(document);
+    }
+    catch (error) 
+    {
+        return next(
+            new ApiError(500, "An error occurred while creating the order")
+        );
+    }
+}
+exports.getUserOrder = async (req,res,next) => {
+    try {
+        const orderService = new OrderService(MongoDB.client);
+        const document = await orderService.getUserOrder(req.params.username);
+        res.send(document);
+    }
+    catch (error) 
+    {
+        return next(
+            new ApiError(500, "An error occurred while creating the order")
+        );
+    }
+}

@@ -42,5 +42,7 @@ router.route("/find/:id")
 
 router.route("/order")
     .post(order.create)
-
+    .get(order.getAll)
+router.route("/order/:username")
+    .post(order.getUserOrder)
 module.exports = router;

@@ -14,6 +14,7 @@ class OrderService
                 price: item.price,
                 quantity: item.quantity
               })),
+            total: payload.total,
             status: "Chờ xác nhận",
             date: payload.date
         }
@@ -25,10 +26,15 @@ class OrderService
     async getAllOrders() { 
         return await this.Order.find({}).toArray();  
     }
+    async getUserOrder(username){
+        return await this.Order.find(
+            {"username": username},
+        ).toArray()
+    }
     async create(payload){
         const order = this.extractOderData(payload);
-        const result= await this.Order.insertOne(order);
-         return result._id;
+        const result = await this.Order.insertOne(order);
+         return result.insertedId;
      };
 }
 module.exports = OrderService;
