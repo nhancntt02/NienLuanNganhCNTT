@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 class NotifyService{
     constructor(client) {
         this.Notify = client.db().collection("notification");
@@ -26,8 +27,10 @@ class NotifyService{
         return await rs.toArray();
     }
 
-    async delete(username){
-        const rs = await this.Notify.deleteMany({username});
+    async delete(id){
+        const rs = await this.Notify.findOneAndDelete({
+             _id: ObjectId.isValid(id) ? new ObjectId(id) : null,
+        });
         return rs;
     }
 

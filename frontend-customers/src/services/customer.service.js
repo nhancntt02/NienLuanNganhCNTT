@@ -19,4 +19,5 @@ class CustomerService {
         return (await this.api.get(`/customer`)).data;
     }
 }
+
 export default new CustomerService()

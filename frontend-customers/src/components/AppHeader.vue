@@ -20,7 +20,16 @@
             </li>
         </ul>
         <ul v-else class="col navbar-nav d-flex justify-content-end">
-            <li class="nav-item"><router-link :to="{ name: 'customerinfo' }" class="nav-link">Tài khoản</router-link>
+            <li class="nav-item">
+                <router-link :to="{ name: 'customerinfo' }" class="nav-link">Tài khoản</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link :to="{ name: 'notify' }" class="nav-link position-relative">
+                    <i class="fas fa-bell"></i>
+                    <span v-if="notifyCount != 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ notifyCount }}
+                    </span>
+                </router-link> 
             </li>
             <li class="nav-item">
                 <router-link :to="{name: 'cart'}" class="nav-link position-relative" href="">
@@ -38,11 +47,13 @@
 <script>
 import CartService from "@/services/cart.service";
 import CustomerService from "@/services/customer.service";
+import NotifyService from "@/services/notify.service";
 export default {
     data() {
         return {
             userName: '',
             cartCount: 0,
+            notifyCount: 0,
             ipAddr:"",
         }
     },
@@ -65,6 +76,7 @@ export default {
             this.ipAddr = await CustomerService.getIp();
             sessionStorage.setItem("guest",this.ipAddr);
             this.getCartCount();
+            this.getNotifyCount();
         },
         async getCartCount(){
             if(this.userName)
@@ -77,7 +89,21 @@ export default {
                 const cart = await CartService.get(sessionStorage.getItem("guest"));
                 this.cartCount = cart.length;
             }
+        },
+        async getNotifyCount(){
+            if(this.userName)
+            {
+                const cart = await NotifyService.getNotify(this.userName);
+                this.notifyCount = cart.length;
+            }
+            else
+            {
+                
+                this.notifyCount = 0;
+            }
         }
+
+
     },
     mounted(){
         this.getGuestIp();

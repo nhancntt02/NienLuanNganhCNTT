@@ -33,6 +33,11 @@ const routes = [
         name: "cart",
         component: () => import("@/view/Cart.vue"),
     },
+    {
+        path: "/notifition",
+        name: "notify",
+        component: () => import("@/view/Notify.vue")
+    },
 
 ];
 const router = createRouter({

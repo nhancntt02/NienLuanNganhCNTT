@@ -53,5 +53,8 @@ router.route("/notify")
     .get(notify.findAll)
     .post(notify.create)
     .delete(notify.deleteAll)
-
+router.route("/notify/:username")
+    .get(notify.findUser)
+router.route("/notify/:id")
+    .delete(notify.delete)
 module.exports = router;
