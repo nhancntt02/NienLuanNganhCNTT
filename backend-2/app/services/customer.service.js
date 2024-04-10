@@ -70,6 +70,10 @@ class CustomerService {
             {$set:user})
         return result;
     }
+    async find(filter) {
+        const cursor = await this.Customer.find(filter);
+        return await cursor.toArray();
+    }
     async findOne(id){
         const result = await this.Customer.findOne({_id:id});
         return result;

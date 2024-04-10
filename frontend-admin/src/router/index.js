@@ -22,6 +22,11 @@ const routes = [
         path: "/add-book",
         name: "book-add",
         component: () => import("@/views/BookAdd.vue"),
+    },
+    {
+        path: '/notify',
+        name: 'notification',
+        component: ()=> import('@/views/Notify.vue')
     }
     
 

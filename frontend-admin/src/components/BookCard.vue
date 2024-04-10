@@ -17,19 +17,19 @@ export default {
                 {{ book.tensach }}
             </div>
             <div class="p-1">
-                <strong>The Loai:</strong>
+                <strong>Thể loại:</strong>
                 {{ book.theloai }}
             </div>
             <div class="p-1">
-                <strong>So trang:</strong>
+                <strong>Số trang:</strong>
                 {{ book.sotrang }}
             </div>
             <div class="p-1">
-                <strong>Nha Xuat Ban:</strong>
+                <strong>Nhà xuất bản:</strong>
                 {{ book.nxb }}
             </div>
             <div class="p-1">
-                <strong>Gia:</strong>
+                <strong>Giá:</strong>
                 {{ book.gia }}
             </div>
         </div>

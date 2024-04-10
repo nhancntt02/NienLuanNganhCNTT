@@ -85,4 +85,17 @@ exports.findOne = async (req,res,next) => {
             new ApiError(500,  `Error while searching id=${req.params.id}` )
         );
     }
-}   
+}
+
+exports.findAll = async (req, res, next) => {
+    let documents = [];
+    try {
+        const bookService = new CustomerService(MongoDB.client);
+        documents = await bookService.find({});
+    } catch (error) {
+        return next(
+            new  ApiError(500, "An error occurred while retrieving customer")
+        );
+    }
+    return res.send(documents);
+};

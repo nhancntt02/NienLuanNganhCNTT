@@ -5,7 +5,7 @@
         </div>
         <div class="mt-3 col-md-5">
             <h4>
-                Danh Sach Book
+                Tất cả sách
                 <router-link to="/" >
                     <i class="fas fa-book"></i>
                 </router-link>

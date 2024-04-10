@@ -83,12 +83,8 @@
 import * as yup from "yup";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import CustomerService from "@/services/customer.service";
-import { useUser } from "@/stores/main.vue";
 export default {
-    setup() {
-        const mainUser = useUser();
-        return { mainUser };
-    },
+
     components: {
         Form,
         Field,

@@ -3,6 +3,7 @@ const customer = require("../controllers/customer.controller");
 const book =  require("../controllers/book.controller");
 const order = require("../controllers/order.controller");
 const cart = require("../controllers/cart.controller");
+const notify = require("../controllers/notify.controller");
 const router = express.Router();
 
 
@@ -19,6 +20,8 @@ router.route("/cart/:username/:bookId")
 router.route("/customer")
     .post(customer.create)
     .get(customer.getIP);
+router.route("/customers")
+    .get(customer.findAll);
 router.route("/customer/login")
     .post(customer.login);
 
@@ -45,4 +48,10 @@ router.route("/order")
     .get(order.getAll)
 router.route("/order/:username")
     .post(order.getUserOrder)
+
+router.route("/notify")
+    .get(notify.findAll)
+    .post(notify.create)
+    .delete(notify.deleteAll)
+
 module.exports = router;
