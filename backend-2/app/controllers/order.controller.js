@@ -15,6 +15,20 @@ exports.create = async (req, res, next) => {
         );
     }
 }
+exports.update = async (req, res, next) =>{
+    if (!req.params.id){
+        return next(new ApiError(422,"Id đơn hàng không được bỏ trống"));
+    }
+    const orderService = new OrderService(MongoDB.client);
+    try{
+        const document = await orderService.update(req.params.id,req.body);
+        if(document){
+            res.send(document);
+        }
+    }catch(error){
+        return next(new ApiError(500,"Có lỗi khi sửa đơn hàng"));
+    }
+}
 exports.getAll = async (req, res, next) => {
     try {
         const orderService = new OrderService(MongoDB.client);

@@ -3,7 +3,7 @@ import Home from "@/view/Home.vue";
 
 const routes = [
     {
-        path: "/home",
+        path: "/",
         name: "homeBook",
         component: Home,
     },
@@ -38,7 +38,17 @@ const routes = [
         name: "notify",
         component: () => import("@/view/Notify.vue")
     },
-
+    {
+        path: "/order/confirm/:bookId",
+        name: "orderconfirm",
+        component: () => import("@/view/OrderConfirm.vue"),
+        props: true,
+    },
+    {
+        path: "/order",
+        name: "order",
+        component: () => import("@/view/Order.vue"),
+    },
 ];
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

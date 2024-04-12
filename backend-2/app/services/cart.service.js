@@ -7,9 +7,11 @@ class CartService {
 
         const cart = {
             username: username,
-            bookId: payload.id,
+            bookId: payload.bookId,
             price: payload.price,
             quantity: payload.quantity,
+            hinh:payload.hinh,
+            tensach:payload.tensach
         };
         
         Object.keys(cart).forEach(

@@ -65,9 +65,11 @@ export default {
             message: '',
             cartItem: {
                 username: "",
-                id: "",
+                bookId: "",
                 price: 0,
                 quantity: 1,
+                hinh:"",
+                tensach:"",
             }
         };
     },
@@ -84,9 +86,11 @@ export default {
                     for (const cart of guestCart) {
                         console.log(cart);
                         this.cartItem.username = user._id;
-                        this.cartItem.id = cart.bookId;
+                        this.cartItem.bookId = cart.bookId;
                         this.cartItem.price = cart.price;
                         this.cartItem.quantity = cart.quantity;
+                        this.cartItem.hinh = cart.hinh;
+                        this.cartItem.tensach = cart.tensach;
                         console.log(cart);
                         try {
                             const result = await CartService.create(user._id, this.cartItem);
@@ -102,7 +106,7 @@ export default {
                         console.log(error);
                     }
                 }
-                this.$router.replace({ path: "/home" });
+                this.$router.replace({ path: "/" });
             } catch (error) {
                 this.message = error.response.data.message;
             }

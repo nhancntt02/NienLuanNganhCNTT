@@ -23,7 +23,19 @@
             <tfoot>
                 <tr>
                     <td colspan="4">Tổng cộng</td>
-                    <td colspan="2" class="fw-bold">{{ getTotal }} VNĐ</td>
+                    <td class="fw-bold">{{ getTotal }} VNĐ</td>
+                    <div>
+                        <td v-if="user">
+                            <router-link :to="{name:'orderconfirm',params:{bookId:'0'}}" class="nav-link">
+                                <button class="btn btn-sm btn-primary">Mua hàng</button>
+                            </router-link>
+                        </td>
+                        <td v-else>
+                            <router-link :to="{name:'loginPage'}" class="nav-link">
+                                <button class="btn btn-sm btn-secondary">Đăng nhập</button>
+                            </router-link>
+                        </td>
+                    </div>
                 </tr>
             </tfoot>
         </table>
@@ -31,7 +43,7 @@
 </template>
 <script>
 import CartService from "@/services/cart.service";
-import CartCard from "@/components/CartCard.vue"
+import CartCard from "@/components/CartCard.vue";
 export default{
     data(){
         return {
@@ -54,11 +66,16 @@ export default{
     },
     methods:{
         async getCart(){
-            this.user = sessionStorage.getItem("userName") ? sessionStorage.getItem("userName") : sessionStorage.getItem("guest");
-            this.carts = await CartService.get(this.user);
-        }
+            this.user = sessionStorage.getItem("userName");
+            if (this.user) {
+                this.carts = await CartService.get(this.user);
+            }
+            else{
+                this.carts = await CartService.get(sessionStorage.getItem("guest"));
+            }
+        },
     },
-    mounted(){
+    created(){
         this.getCart();
     }
 }

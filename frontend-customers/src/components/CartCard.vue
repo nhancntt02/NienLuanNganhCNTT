@@ -1,19 +1,19 @@
 <template>
     <tr>
         <td>
-            <img class="img-fluid p-2" :src="book.hinh" alt="" style="height: 100px; width: 100px; margin: 0 auto;">
+            <img class="img-fluid p-2" :src="cart.hinh" alt="" style="height: 100px; width: 100px; margin: 0 auto;">
         </td>
         <td>
-            {{ book.tensach }}
+            {{ cart.tensach }}
         </td>
         <td>
-            {{ book.gia }}
+            {{ cart.price }}
         </td>
         <td v-if="!change">
             {{ cart.quantity }}
         </td>
         <td v-else>
-            <input type="number" class="form-control" inputmode="numeric" v-model="cartItem.quantity"  style="width: 60px;" min="1">
+            <input type="number" class="form-control" inputmode="numeric" v-model="cart.quantity"  style="width: 60px;" min="1">
         </td>
         <td>
             {{ cart.quantity * cart.price}}
@@ -30,39 +30,28 @@
         </td>
     </tr>
 </template>
+<style>
+td {
+    vertical-align: middle;
+}
+</style>
 <script>
 import BookService from "@/services/book.service";
 import CartService from "@/services/cart.service";
 export default {
     props:{
         cart:{ type: Object, required: true,},
-        user:{type: String,required:true,}
     },
     data(){
         return{
-            book : [],
             change:false,
-            cartItem:{
-                username:"",
-                id:"",
-                price:0,
-                quantity:1,
-            }
+            user:"",
         }
     },
     methods:{
-        async getBook(){
-            try{
-                this.book = await BookService.get(this.cart.bookId);
-            }
-            catch(error){
-                console.log(error);
-            }
-        },
         changeCart()
         {
             this.change = true;
-            this.cartItem.quantity = this.cart.quantity;
         },
         cancelChange(){
             if(confirm("Bạn có chắc muốn hủy bỏ lần sửa này?"))
@@ -72,11 +61,7 @@ export default {
         },
         async editCard(cart){
             try{
-                this.cartItem.username = this.user,
-                this.cartItem.id= cart.bookId,
-                this.cartItem.price = cart.price,
-                this.cartItem.quantity -= cart.quantity;
-                const result = await CartService.update(this.user,this.cartItem);
+                const result = await CartService.update(this.user,this.cart);
                 location.reload();
             }catch(error){
                 alert("Cập nhật thất bại");
@@ -98,8 +83,5 @@ export default {
             }
         }
     },
-    mounted(){
-        this.getBook();
-    }
 }
 </script>

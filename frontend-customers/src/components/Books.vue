@@ -19,7 +19,9 @@
                         <i class="fa-solid fa-cart-plus"></i>
                     </button>
                     <button class="btn btn-sm btn-outline-success">
-                        Mua ngay
+                        <router-link class="nav-link" :to="{ name: 'orderconfirm', params: { bookId: book._id } }">
+                            Mua ngay
+                        </router-link>
                     </button>
                 </div>
             </div>
@@ -46,7 +48,7 @@ export default {
     data(){
         return{
             cartItem: {
-                id:"",
+                bookId:"",
                 price:"",
                 quantity:1,
             },
@@ -70,8 +72,10 @@ export default {
         },
         async addToCard(book){
             const userName = sessionStorage.getItem("userName");
-            this.cartItem.id = book._id;
+            this.cartItem.bookId = book._id;
             this.cartItem.price=book.gia;
+            this.cartItem.hinh = book.hinh;
+            this.cartItem.tensach = book.tensach;
             if(userName)
             {
                 try{
@@ -91,8 +95,5 @@ export default {
             }
         }
     },
-    mounted(){
-        sessionStorage.removeItem('tempCart');
-    }
 };
 </script>

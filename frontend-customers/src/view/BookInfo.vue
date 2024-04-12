@@ -53,7 +53,7 @@ export default {
             console.log(this.quantity);
         }
     },
-    mounted() {
+    created() {
         this.getBook();
     }
 }

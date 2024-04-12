@@ -21,11 +21,14 @@
         </ul>
         <ul v-else class="col navbar-nav d-flex justify-content-end">
             <li class="nav-item">
-                <router-link :to="{ name: 'customerinfo' }" class="nav-link">Tài khoản</router-link>
+                <router-link :to="{ name: 'order' }" class="nav-link">Đơn hàng</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link :to="{ name: 'customerinfo' }" class="nav-link"><i class="fa-solid fa-user" title="Tài khoản"></i></router-link>
             </li>
             <li class="nav-item">
                 <router-link :to="{ name: 'notify' }" class="nav-link position-relative">
-                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-bell" title="Thông báo"></i>
                     <span v-if="notifyCount != 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{ notifyCount }}
                     </span>
@@ -33,13 +36,13 @@
             </li>
             <li class="nav-item">
                 <router-link :to="{name: 'cart'}" class="nav-link position-relative" href="">
-                    <i class="fa-solid fa-cart-shopping"></i>
+                    <i class="fa-solid fa-cart-shopping" title="Giỏ hàng"></i>
                     <span v-if="cartCount != 0" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                         {{ cartCount }}
                     </span>
                 </router-link>
             </li>
-            <li class="nav-item"><a class="nav-link" href="#" @click="logout"><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="#" @click="logout"><i class="fa-solid fa-arrow-right-from-bracket" title="Đăng xuất"></i></a></li>
         </ul>
     </nav>
 </template>
@@ -105,7 +108,7 @@ export default {
 
 
     },
-    mounted(){
+    created(){
         this.getGuestIp();
     }
 };

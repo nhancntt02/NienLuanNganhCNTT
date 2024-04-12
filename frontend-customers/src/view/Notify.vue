@@ -72,7 +72,7 @@
             }
 
         },
-        mounted() {
+        created() {
             this.getUserName();
             this.getNotifyUser(this.username);
         }

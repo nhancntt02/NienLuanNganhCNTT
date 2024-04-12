@@ -1,3 +1,4 @@
+
 class OrderService
 {
     constructor(client) {
@@ -5,18 +6,32 @@ class OrderService
     }
     extractOderData(payload)
     {
-        const datetime = new Date().toISOString();
-        const order = {
-            _id: datetime + payload.username,
-            username: payload.username,
-            bookId : payload.bookId.map((item) => ({
-                bookId: item.id,
-                price: item.price,
-                quantity: item.quantity
-              })),
-            total: payload.total,
-            status: "Chờ xác nhận",
-            date: payload.date
+        let order;
+        if(payload.bookId){
+            order = {
+                _id: new Date().toISOString().substr(0, 19) + payload.username,
+                username: payload.username,
+                bookId : payload.bookId.map((item) => ({
+                    bookId: item.bookId,
+                    price: item.price,
+                    quantity: item.quantity,
+                    hinh:item.hinh,
+                    tensach:item.tensach
+                  })),
+                total: payload.total,
+                status: "Chờ xác nhận",
+                date: payload.date
+            }
+        }
+        else
+        {
+            order = {
+                _id: payload.id,
+                username: payload.username,
+                total: payload.total,
+                status: payload.status,
+                date: payload.date
+            }
         }
         Object.keys(order).forEach(
             (key) => order[key] === undefined && delete order[key]
@@ -34,7 +49,16 @@ class OrderService
     async create(payload){
         const order = this.extractOderData(payload);
         const result = await this.Order.insertOne(order);
-         return result.insertedId;
-     };
+        return result.insertedId;
+    };
+    async update(id,payload){
+        const order = this.extractOderData(payload);
+        const result = await this.Order.findOneAndUpdate(
+            {_id: id},
+            {$set: order},
+            { returnDocument: "after" }
+        );
+        return result;
+    }
 }
 module.exports = OrderService;
