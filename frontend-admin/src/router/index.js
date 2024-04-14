@@ -27,7 +27,18 @@ const routes = [
         path: '/notify',
         name: 'notification',
         component: ()=> import('@/views/Notify.vue')
-    }
+    },
+    {
+        path:'/revenue',
+        name: 'revenue',
+        component: () => import('@/views/Revenue.vue'),
+    },
+    {
+        path: "/bookinfo/:bookId",
+        name: "bookinfo",
+        component: () => import("@/views/BookInfo.vue"),
+        props: true,
+    },
     
 
 ];

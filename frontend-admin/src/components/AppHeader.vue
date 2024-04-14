@@ -11,6 +11,10 @@
     Thông báo
     <i class="fas fa-bell"></i>
     </router-link>
+    <router-link :to="{ name: 'revenue'}" class="nav-link">
+    Doanh thu
+    <i class="fas fa-dollar"></i>
+    </router-link>
     </li>
     </div>
     </nav>
