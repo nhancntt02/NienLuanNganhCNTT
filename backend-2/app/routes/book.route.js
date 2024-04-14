@@ -4,10 +4,16 @@ const book =  require("../controllers/book.controller");
 const order = require("../controllers/order.controller");
 const cart = require("../controllers/cart.controller");
 const notify = require("../controllers/notify.controller");
+const rate = require("../controllers/rate.controller");
 const router = express.Router();
 
-
-
+router.route("/rate")
+    .post(rate.create)
+    .put(rate.findOne)
+router.route("/rate/:id")
+    .put(rate.update)
+router.route("/rate/find/:bookId")
+    .get(rate.getByBookId)
 router.route("/cart/:username")
     .post(cart.create)
     .get(cart.findAll)
@@ -50,6 +56,8 @@ router.route("/order/:username")
     .post(order.getUserOrder)
 router.route("/order/update/:id")
     .put(order.update)
+router.route("/order/find")
+    .get(order.findById)
 router.route("/notify")
     .get(notify.findAll)
     .post(notify.create)

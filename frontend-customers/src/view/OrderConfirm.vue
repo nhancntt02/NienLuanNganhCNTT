@@ -116,10 +116,11 @@ export default {
                         price: item.price,
                         quantity: item.quantity,
                         hinh: item.hinh,
-                        tensach: item.tensach
+                        tensach: item.tensach,
                     })),
                     total: this.total,
-                    date: new Date().toISOString().substr(0, 10)
+                    date: new Date().toISOString().substr(0, 10),
+                    rating:0,
                 };
                 order.bookId.forEach((item) => {
                     this.quantityManager(item);
@@ -133,10 +134,11 @@ export default {
                         price:this.book.gia,
                         quantity:this.quantity,
                         hinh:this.book.hinh,
-                        tensach:this.book.tensach
+                        tensach:this.book.tensach,
                     }],
                     total: this.total,
-                    date: new Date().toISOString().substr(0, 10)
+                    date: new Date().toISOString().substr(0, 10),
+                    rating:0,
                 };
                 this.quantityManager(order.bookId[0]);
             }
@@ -158,6 +160,7 @@ export default {
                 if(orderBook.soquyen < 0 )
                 {
                     alert('Sách bạn muốn mua đã bán hết!');
+                    this.$router.push({name:"homeBook"});
                 }
                 try{
                     await bookService.update(orderBook._id,orderBook);

@@ -7,7 +7,7 @@
     </div>
     <div>
         <ul class="list-group">
-            <li v-for="(item, index) in sortOrder" :key="item._id" class="list-group-item list-group-item-action">
+            <li v-for="(item, index) in sortOrder" :key="item._id" class="list-group-item">
                 <div class="d-flex justify-content-between">
                     Mã đơn hàng: {{ item._id }} - Ngày đặt: {{ item.date }} - Tổng tiền: {{ item.total }}
                     <i v-if="isOrderDetailVisible(item._id)" class="fa-solid fa-chevron-up mt-1"
@@ -17,7 +17,7 @@
                 <div v-if="isOrderDetailVisible(item._id)">
                     <hr>
                     <ul class="list-group list-group-flush">
-                        <OrderBookCard :books="item.bookId" :index="index" />
+                        <OrderBookCard :books="item.bookId" :index="index" :orderId="item._id"/>
                     </ul>
                 </div>
             </li>

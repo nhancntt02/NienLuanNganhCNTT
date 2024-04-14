@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 class RateService {
     constructor(client) {
         this.Rate = client.db().collection("rate");
@@ -5,9 +6,11 @@ class RateService {
     extractRateData(payload){
         const rate = {
             username:payload.username,
+            hoten:payload.hoten,
             bookId : payload.bookId,
             rating : Number(payload.rating),
-            review : payload.review || ""
+            review : payload.review,
+            orderId: payload.orderId
         };
         Object.keys(rate).forEach(
             (key) => rate[key] === undefined && delete rate[key]
@@ -22,5 +25,35 @@ class RateService {
         );
         return document;
     }
-
+    async update(id,payload){
+        const filter = {
+            _id: ObjectId.isValid(id) ? new  ObjectId(id) : null,
+        };
+        console.log(filter);
+        const rate = this.extractRateData(payload);
+        const result = await this.Rate.findOneAndUpdate(
+            filter,
+            { $set: rate},
+            { returnDocument: "after"},
+        );
+        console.log(result)
+        return result; 
+    }
+    async getByBookId(id){
+        const filter = {
+            bookId: id,
+        }
+        const options={sort:{_id:-1}};
+        const result =await this.Rate.find(filter,null,options).toArray();
+        return result;
+    }
+    async findOne(payload){
+        const filter ={
+            bookId:payload.bookId,
+            orderId:payload.orderId
+        };
+        const rate= await this.Rate.find(filter).toArray();
+        return rate;
+    }
 }
+module.exports = RateService;

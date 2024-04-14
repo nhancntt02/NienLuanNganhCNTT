@@ -1,4 +1,3 @@
-
 class OrderService
 {
     constructor(client) {
@@ -16,11 +15,12 @@ class OrderService
                     price: item.price,
                     quantity: item.quantity,
                     hinh:item.hinh,
-                    tensach:item.tensach
+                    tensach:item.tensach,
                   })),
                 total: payload.total,
                 status: "Chờ xác nhận",
-                date: payload.date
+                date: payload.date,
+                rating:payload.rating
             }
         }
         else
@@ -30,7 +30,8 @@ class OrderService
                 username: payload.username,
                 total: payload.total,
                 status: payload.status,
-                date: payload.date
+                date: payload.date,
+                rating:payload.rating
             }
         }
         Object.keys(order).forEach(
@@ -54,10 +55,17 @@ class OrderService
     async update(id,payload){
         const order = this.extractOderData(payload);
         const result = await this.Order.findOneAndUpdate(
-            {_id: id},
+            {_id:id},
             {$set: order},
             { returnDocument: "after" }
         );
+        return result;
+    }
+    async findById(id)
+    {
+        const result = await this.Order.findOne(
+            {_id:id},
+        )
         return result;
     }
 }
