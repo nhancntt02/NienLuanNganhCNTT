@@ -26,9 +26,14 @@
                     <td class="fw-bold">{{ getTotal }} VNĐ</td>
                     <div>
                         <td v-if="user">
-                            <router-link :to="{name:'orderconfirm',params:{bookId:'0'}}" class="nav-link">
-                                <button class="btn btn-sm btn-primary">Mua hàng</button>
-                            </router-link>
+                            <div v-if="!soldOut">
+                                <router-link :to="{name:'orderconfirm',params:{bookId:'0'}}" class="nav-link">
+                                    <button class="btn btn-sm btn-primary">Mua hàng</button>
+                                </router-link>
+                            </div>
+                            <div v-else>
+                                <button disabled class="btn btn-sm btn-secondary">Hết hàng</button>
+                            </div>
                         </td>
                         <td v-else>
                             <router-link :to="{name:'loginPage'}" class="nav-link">
@@ -44,12 +49,14 @@
 <script>
 import CartService from "@/services/cart.service";
 import CartCard from "@/components/CartCard.vue";
+import bookService from "@/services/book.service";
 export default{
     data(){
         return {
             carts:[],
             total:0,
             user:"",
+            soldOut:0,
         }
     },
     components:{
@@ -57,10 +64,6 @@ export default{
     },
     computed:{
         getTotal(){
-            this.carts.forEach(cart => {
-                let bookPrice = cart.quantity * cart.price;
-                this.total += bookPrice;
-            });
             return this.total.toLocaleString('vi-VN');
         }
     },
@@ -68,12 +71,26 @@ export default{
         async getCart(){
             this.user = sessionStorage.getItem("userName");
             if (this.user) {
-                this.carts = await CartService.get(this.user);
+                    this.carts = await CartService.get(this.user);
+                    this.carts.forEach(cart => {
+                        let bookPrice = cart.quantity * cart.price;
+                        this.total += bookPrice;
+                    });
+                    this.checkSoldOut();
             }
             else{
                 this.carts = await CartService.get(sessionStorage.getItem("guest"));
             }
         },
+        async checkSoldOut(){
+            for (let i=0;i < this.carts.length ;i++){
+                const book = await bookService.get(this.carts[i].bookId);
+                if(book.soquyen == 0)
+                {
+                    this.soldOut = 1;
+                }
+            }
+        }
     },
     created(){
         this.getCart();

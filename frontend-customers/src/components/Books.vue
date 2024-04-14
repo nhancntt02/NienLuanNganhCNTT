@@ -13,9 +13,14 @@
                     <div class="text-danger">
                         {{ book.gia }}đ
                     </div>
+                    <div class="d-flex justify-content-between  ">
+                        <p v-if="book.soquyen != 0">Số lượng: {{ book.soquyen }}</p>
+                        <p v-else class="text-danger">Đã hết hàng</p>
+                        <p>Đánh giá: 5/5</p>
+                    </div>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
-                    <button class="btn btn-sm btn-outline-primary" @click="addToCard(book)">
+                    <button class="btn btn-sm btn-outline-primary" @click="addToCart(book)">
                         <i class="fa-solid fa-cart-plus"></i>
                     </button>
                     <button class="btn btn-sm btn-outline-success">
@@ -70,7 +75,7 @@ export default {
         goToBookDetail(id) {
             this.$router.push({ name: "bookinfo", params: { bookId: id } });
         },
-        async addToCard(book){
+        async addToCart(book){
             const userName = sessionStorage.getItem("userName");
             this.cartItem.bookId = book._id;
             this.cartItem.price=book.gia;
@@ -79,7 +84,7 @@ export default {
             if(userName)
             {
                 try{
-                    const result = await CartService.create(userName,this.cartItem);
+                    await CartService.create(userName,this.cartItem);
                     alert('Thêm vào giỏ hàng thành công!');
                     location.reload();
                 }
@@ -89,7 +94,7 @@ export default {
             }
             else{
                 const guest = sessionStorage.getItem("guest");
-                const result = await CartService.create(guest,this.cartItem);
+                await CartService.create(guest,this.cartItem);
                 alert('Thêm vào giỏ hàng thành công!');
                 location.reload();
             }

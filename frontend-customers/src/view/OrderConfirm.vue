@@ -40,7 +40,7 @@
             <tbody>
                 <OrderConfirmCard v-if="bookId == 0" v-for="(item, index) in carts" :key="item.bookId" :order="item"
                     :index="index" />
-                <OrderConfirmCard v-else :order="book" :index="0" />
+                <OrderConfirmCard v-else :order="book" :index="0" :quantity="quantity"/>
             </tbody>
             <tfoot>
                 <tr>
@@ -63,6 +63,7 @@ import OrderService from "@/services/order.service";
 import CustomerService from "@/services/customer.service";
 import OrderConfirmCard from "@/components/OrderConfirmCard.vue";
 import BookService from "@/services/book.service";
+import bookService from "@/services/book.service";
 export default {
     props: {
         bookId: { type: String, default: '' }
@@ -74,6 +75,7 @@ export default {
             total: 0,
             success: false,
             book: {},
+            quantity:0,
         }
     },
     components:
@@ -93,7 +95,13 @@ export default {
             try {
                 this.user = await CustomerService.get(sessionStorage.getItem("userName"));
                 this.book = await BookService.get(this.bookId);
-                this.total = this.book.gia
+                this.quantity = sessionStorage.getItem("quantity");
+                sessionStorage.removeItem("quantity");
+                if(!this.quantity)
+                {
+                    this.quantity = 1;
+                }
+                this.total = this.book.gia * this.quantity;
             } catch (error) {
                 console.log(error);
             }
@@ -113,6 +121,9 @@ export default {
                     total: this.total,
                     date: new Date().toISOString().substr(0, 10)
                 };
+                order.bookId.forEach((item) => {
+                    this.quantityManager(item);
+                })
             }
             else{
                 order = {
@@ -120,27 +131,46 @@ export default {
                     bookId: [{
                         bookId: this.book._id,
                         price:this.book.gia,
-                        quantity:1,
+                        quantity:this.quantity,
                         hinh:this.book.hinh,
                         tensach:this.book.tensach
                     }],
                     total: this.total,
                     date: new Date().toISOString().substr(0, 10)
                 };
+                this.quantityManager(order.bookId[0]);
             }
             try {
-                const orderId = await OrderService.create(order);
+                await OrderService.create(order);
                 this.success = true;
                 await CartService.deleteAll(this.user._id);
             } catch (error) {
                 alert("Thêm thất bại!");
             }
         },
+        async quantityManager(book){
+            console.log(book);
+            var orderBook =  await bookService.get(book.bookId);
+            console.log(orderBook);
+            if(orderBook)
+            {
+                orderBook.soquyen -= book.quantity;
+                if(orderBook.soquyen < 0 )
+                {
+                    alert('Sách bạn muốn mua đã bán hết!');
+                }
+                try{
+                    await bookService.update(orderBook._id,orderBook);
+                }
+                catch(error){
+                    alert("Có lỗi xảy ra trong quá trình tạo đơn hàng");
+                }
+            }
+        }
     },
     created() {
         if (this.bookId != 0) {
             this.getBook();
-            console.log(this.bookId);
         }
         else {
             this.getinfo();

@@ -12,5 +12,8 @@ class BookService {
     async get(id) {
         return (await this.api.get(`/find/${id}`)).data;
     }
+    async update(id,data){
+        return (await this.api.put(`admin/${id}`,data)).data;
+    }
 }
 export default new BookService()

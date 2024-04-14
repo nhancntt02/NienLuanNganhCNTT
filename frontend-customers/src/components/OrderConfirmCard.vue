@@ -17,7 +17,7 @@
             <td >{{ order.quantity * order.price}}</td>
         </template>
         <template v-else>
-            <td >{{ 1 }}</td>
+            <td >{{ quantity }}</td>
             <td >{{order.gia}}</td>
         </template>
     </tr>
@@ -32,6 +32,7 @@ export default {
     props:{
         order:{ type: Object ,required:true,},
         index :{type: Number ,required:true },
+        quantity:{type: Number ,default: 1 }
     },
 }
 </script>

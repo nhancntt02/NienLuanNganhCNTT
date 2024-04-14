@@ -10,7 +10,8 @@
             <li v-for="(item, index) in sortOrder" :key="item._id" class="list-group-item list-group-item-action">
                 <div class="d-flex justify-content-between">
                     Mã đơn hàng: {{ item._id }} - Ngày đặt: {{ item.date }} - Tổng tiền: {{ item.total }}
-                    <i v-if="isOrderDetailVisible(item._id)" class="fa-solid fa-chevron-up mt-1" @click="toggleOrderDetail(item._id)"></i>
+                    <i v-if="isOrderDetailVisible(item._id)" class="fa-solid fa-chevron-up mt-1"
+                        @click="toggleOrderDetail(item._id)"></i>
                     <i v-else class="fa-solid fa-chevron-down mt-1" @click="toggleOrderDetail(item._id)"></i>
                 </div>
                 <div v-if="isOrderDetailVisible(item._id)">
@@ -23,6 +24,12 @@
         </ul>
     </div>
 </template>
+<style>
+.fa-chevron-down,
+.fa-chevron-up:hover {
+    cursor: pointer;
+}
+</style>
 <script>
 import OrderService from "@/services/order.service.js";
 import OrderBookCard from "@/components/OrderBookCard.vue";
@@ -33,21 +40,20 @@ export default {
             username: "",
             show: false,
             idShow: "",
-            typeSort:1,
+            typeSort: 1,
             orderDetailsVisibility: {},
         }
     },
     components: {
         OrderBookCard,
     },
-    computed:{
-        sortOrder(){
-            if(this.typeSort == 1)
-            {
-                return this.orders.sort((a,b) => b._id.localeCompare(a._id));
+    computed: {
+        sortOrder() {
+            if (this.typeSort == 1) {
+                return this.orders.sort((a, b) => b._id.localeCompare(a._id));
             }
-            else{
-                return this.orders.sort((a,b) => a._id.localeCompare(b._id));
+            else {
+                return this.orders.sort((a, b) => a._id.localeCompare(b._id));
             }
         }
     },
@@ -64,7 +70,7 @@ export default {
                 console.log(error);
             }
         },
-        changeType(type){
+        changeType(type) {
             this.typeSort = type;
         },
         toggleOrderDetail(orderId) {

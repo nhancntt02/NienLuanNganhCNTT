@@ -37,9 +37,6 @@ class CustomerService {
             else {
                 const customer = this.extractCustomerData(payload);
                 customer.password = CryptoJS.AES.encrypt(customer.password, "secretKey655679", { iv: "secretKey655679IV" }).toString();
-                // console.log(customer.password);
-                // const decrypted = CryptoJS.AES.decrypt(customer.password, "secretKey655679", { iv: "secretKey655679IV" }).toString(CryptoJS.enc.Utf8);
-                // console.log(decrypted);
                 const result = await this.Customer.insertOne(
                     customer,
                     { returnDocument: "after", upsert: true }

@@ -10,7 +10,7 @@ class CartService {
         return (await this.api.get(`/cart/${username}`)).data;
     }
     async update(username,data) {
-        return (await this.api.post(`/cart/${username}`,data)).data;
+        return (await this.api.put(`/cart/${username}`,data)).data;
     }
     async deleteAll(username) {
         return (await this.api.delete(`/cart/${username}`)).data;

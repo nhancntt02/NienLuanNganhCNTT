@@ -26,7 +26,6 @@ class BookService {
 
     async create(payload) {
             const book = this.extractBookData(payload);
-            console.log(book);
             const result = await this.Book.insertOne(
                 book,
                 { returnDocument: "after", upsert: true },

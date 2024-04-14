@@ -19,16 +19,11 @@ export default
     {
         return {
             books: [],
-            userName: "",
             searchText:'',
             searchBook:[],
         };
     },
     computed: {
-        getUserName() {
-            this.userName = sessionStorage.getItem('userName');
-            return this.userName;
-        },
         filteredBooks() {
             if (!this.searchText) {
                 return this.books;
@@ -50,9 +45,6 @@ export default
                 console.log(error);
             }
         },
-        refreshList() {
-            this.retrieveBooks();
-        },
         async getSearchBook(){
             if(this.searchText)
             {
@@ -61,9 +53,8 @@ export default
         },
     },
     mounted() {
-        this.refreshList();
+        this.retrieveBooks();
         if (localStorage.getItem('reloaded')) {
-            localStorage.removeItem('reloaded');
         } else {
             localStorage.setItem('reloaded', '1');
             location.reload();

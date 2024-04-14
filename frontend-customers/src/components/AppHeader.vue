@@ -62,7 +62,6 @@ export default {
     },
     computed: {
         getUserName() {
-            this.userName = sessionStorage.getItem('userName');
             return this.userName;
         },
     },
@@ -71,8 +70,8 @@ export default {
             if (confirm('Bạn có chắc muốn đăng xuất không?')) {
                 sessionStorage.removeItem("userName");
                 this.userName = "";
+                localStorage.removeItem('reloaded');
                 this.$router.push({ name: "homeBook" });
-                window.location.reload();
             }
         },
         async getGuestIp(){
@@ -108,8 +107,9 @@ export default {
 
 
     },
-    created(){
+    mounted(){
         this.getGuestIp();
+        this.userName = sessionStorage.getItem("userName");
     }
 };
 </script>

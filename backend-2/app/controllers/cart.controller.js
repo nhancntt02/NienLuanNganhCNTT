@@ -5,7 +5,7 @@ const CartService = require("../services/cart.service");
 exports.create = async (req, res, next) => {
     try {
         const cartService = new CartService(MongoDB.client);
-        const exitscart = await cartService.findOne(req.params.username,req.body.id);
+        const exitscart = await cartService.findOne(req.params.username,req.body.bookId);
         if(exitscart)
         {
             exitscart.quantity += req.body.quantity;

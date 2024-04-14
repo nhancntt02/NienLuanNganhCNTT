@@ -16,8 +16,8 @@
                     <p class="card-text fs-5">Ngôn ngữ: {{ book.ngonngu }}</p>
                     <div class="d-flex">
                         <input type="number" inputmode="numeric" class="rounded mt-2 me-2 form-control" style="width: 80px; height: 35px;" min="1" v-model="quantity">
-                        <button @click="addToCart()" class="btn btn-sm btn-success mt-2 me-2">Thêm vào giỏ hàng</button>
-                        <button @click="payment()" class="btn btn-sm btn-primary mt-2">Mua ngay</button>
+                        <button @click="addToCart(book)" class="btn btn-sm btn-success mt-2 me-2">Thêm vào giỏ hàng</button>
+                        <button @click="buyNow()" class="btn btn-sm btn-primary mt-2">Mua ngay</button>
                     </div>
                 </div>
             </div>
@@ -27,6 +27,7 @@
 
 <script>
 import BookService from "@/services/book.service";
+import CartService from "@/services/cart.service";
 export default {
     props: {
         bookId: { type: String, required: true }
@@ -35,6 +36,11 @@ export default {
         return {
             book: [],
             quantity: 1,
+            cartItem: {
+                bookId:"",
+                price:"",
+                quantity:1,
+            },
         }
     },
     methods: {
@@ -46,11 +52,34 @@ export default {
                 console.log(error);
             }
         },
-        addToCart() {
-            console.log(this.quantity);
+        async addToCart(book){
+            const userName = sessionStorage.getItem("userName");
+            this.cartItem.bookId = book._id;
+            this.cartItem.price = book.gia;
+            this.cartItem.hinh = book.hinh;
+            this.cartItem.tensach = book.tensach;
+            this.cartItem.quantity = this.quantity;
+            if(userName)
+            {
+                try{
+                    const result = await CartService.create(userName,this.cartItem);
+                    alert('Thêm vào giỏ hàng thành công!');
+                    location.reload();
+                }
+                catch(error){
+                    console.log(error);
+                }
+            }
+            else{
+                const guest = sessionStorage.getItem("guest");
+                const result = await CartService.create(guest,this.cartItem);
+                alert('Thêm vào giỏ hàng thành công!');
+                location.reload();
+            }
         },
-        payment(){
-            console.log(this.quantity);
+        buyNow(){
+            sessionStorage.setItem("quantity",this.quantity);
+            this.$router.push({name: 'orderconfirm', params: { bookId: this.book._id }});
         }
     },
     created() {
