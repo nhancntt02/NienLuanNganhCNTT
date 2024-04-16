@@ -19,6 +19,18 @@
                         <button @click="addToCart(book)" class="btn btn-sm btn-success mt-2 me-2">Thêm vào giỏ hàng</button>
                         <button @click="buyNow()" class="btn btn-sm btn-primary mt-2">Mua ngay</button>
                     </div>
+                    <div class="border border-secondary border-2 my-2 p-2" style="height: 220px; overflow: auto;">
+                        <p class="fs-5 fw-bold">Đánh giá:</p>
+                        <div v-if="check">
+                            <p v-for="r in rate">
+                                <hr>
+                                Họ tên: {{ r.hoten }} <br/>
+                                Đánh giá: {{ r.rating}} sao <br/>
+                                Nội dung: {{ r.review }}
+                            </p>
+                        </div>
+                        <p v-else class="fs-3 text-center"> Sách chưa có đánh giá hay bình luận!</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,6 +40,7 @@
 <script>
 import BookService from "@/services/book.service";
 import CartService from "@/services/cart.service";
+import RateService from "@/services/rate.service";
 export default {
     props: {
         bookId: { type: String, required: true }
@@ -35,6 +48,8 @@ export default {
     data() {
         return {
             book: [],
+            rate: [],
+            check: false,
             quantity: 1,
             cartItem: {
                 bookId:"",
@@ -49,6 +64,14 @@ export default {
                 this.book = await BookService.get(this.bookId);
             }
             catch (error) {
+                console.log(error);
+            }
+        },
+        async getRate() {
+            try {
+                this.rate = await RateService.getByBookId(this.bookId);
+                this.check = true;
+            } catch (error) {
                 console.log(error);
             }
         },
@@ -84,6 +107,8 @@ export default {
     },
     created() {
         this.getBook();
+        this.getRate();
+        this.check = false;
     }
 }
 </script>
