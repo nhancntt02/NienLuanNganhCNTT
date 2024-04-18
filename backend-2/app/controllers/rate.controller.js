@@ -65,3 +65,13 @@ exports.findOne = async (req, res, next) => {
         return next(new ApiError("Internal server error", 500));
     }
 }
+exports.getAverageRating = async (req, res, next) => {
+    const bookId = req.query.id;
+    const rateService = new RateService(MongoDB.client);
+    try{
+        const avgRating = await rateService.getAverageRating(bookId);
+        return res.status(200).json({avg_rating:avgRating});
+    }catch(error){
+        return next(new ApiError("Internal server error", 500));
+    }
+}

@@ -10,6 +10,7 @@ const router = express.Router();
 router.route("/rate")
     .post(rate.create)
     .put(rate.findOne)
+    .get(rate.getAverageRating)
 router.route("/rate/:id")
     .put(rate.update)
 router.route("/rate/find/:bookId")

@@ -16,7 +16,8 @@
                     <div class="d-flex justify-content-between  ">
                         <p v-if="book.soquyen != 0">Số lượng: {{ book.soquyen }}</p>
                         <p v-else class="text-danger">Đã hết hàng</p>
-                        <p>Đánh giá: 5/5</p>
+                        <p v-if="rating[index*4+j] > 0">Đánh giá: {{rating[index*4+j]}}/5</p>
+                        <p v-else>Chưa có đánh giá</p>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
@@ -46,17 +47,19 @@
 </style>
 <script>
 import CartService from "@/services/cart.service";
+import RateService from "@/services/rate.service";
 export default {
     props: {
         books: { type: Array, default: () => [] }
     },
-    data(){
-        return{
+    data() {
+        return {
             cartItem: {
-                bookId:"",
-                price:"",
-                quantity:1,
+                bookId: "",
+                price: "",
+                quantity: 1,
             },
+            rating: [],
         }
     },
     computed: {
@@ -68,37 +71,47 @@ export default {
                 const end = Math.min(start + 4, this.books.length);
                 rows.push(this.books.slice(start, end));
             }
+            this.getRate();
+            console.log(this.rating);
             return rows;
-        }
+        },
     },
     methods: {
+        async getRate() {
+            for (let i = 0; i < this.books.length; i++) {
+                const rate= await RateService.getAverageRating(this.books[i]._id);
+                this.rating.push(rate.avg_rating);
+            }
+        },
         goToBookDetail(id) {
             this.$router.push({ name: "bookinfo", params: { bookId: id } });
         },
-        async addToCart(book){
+        async addToCart(book) {
             const userName = sessionStorage.getItem("userName");
             this.cartItem.bookId = book._id;
-            this.cartItem.price=book.gia;
+            this.cartItem.price = book.gia;
             this.cartItem.hinh = book.hinh;
             this.cartItem.tensach = book.tensach;
-            if(userName)
-            {
-                try{
-                    await CartService.create(userName,this.cartItem);
+            if (userName) {
+                try {
+                    await CartService.create(userName, this.cartItem);
                     alert('Thêm vào giỏ hàng thành công!');
                     location.reload();
                 }
-                catch(error){
+                catch (error) {
                     console.log(error);
                 }
             }
-            else{
+            else {
                 const guest = sessionStorage.getItem("guest");
-                await CartService.create(guest,this.cartItem);
+                await CartService.create(guest, this.cartItem);
                 alert('Thêm vào giỏ hàng thành công!');
                 location.reload();
             }
         }
     },
+    created(){
+        this.getRate();
+    }
 };
 </script>

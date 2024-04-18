@@ -19,7 +19,10 @@
                         <button @click="addToCart(book)" class="btn btn-sm btn-success mt-2 me-2">Thêm vào giỏ hàng</button>
                         <button @click="buyNow()" class="btn btn-sm btn-primary mt-2">Mua ngay</button>
                     </div>
-                    <div class="border border-secondary border-2 my-2 p-2" style="height: 220px; overflow: auto;">
+                </div>
+            </div>
+        </div>
+        <div class="border border-secondary border-2 my-2 p-2" style="height: 220px; overflow: auto;">
                         <p class="fs-5 fw-bold">Đánh giá:</p>
                         <div v-if="check">
                             <p v-for="r in rate">
@@ -31,9 +34,6 @@
                         </div>
                         <p v-else class="fs-3 text-center"> Sách chưa có đánh giá hay bình luận!</p>
                     </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 

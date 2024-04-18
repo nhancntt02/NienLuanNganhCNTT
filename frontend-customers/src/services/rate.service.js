@@ -15,5 +15,8 @@ class RateService{
     async update(id,data){
         return (await this.api.put(`/rate/${id}`,data)).data; 
     }
+    async getAverageRating(id){
+        return (await this.api.get("/rate?id=" + id)).data;
+    }
 }
 export default new RateService();
