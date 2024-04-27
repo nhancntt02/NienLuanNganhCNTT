@@ -54,8 +54,7 @@ class CardService {
                 cardNum: "9704194841945510",
                 cardName: "HUYNH PHUOC HAU",
                 validM: 7,
-                validY: 15,
-                otp: "123456"
+                validY: 15,              
             },
             {
                 id: "c2",
@@ -65,7 +64,6 @@ class CardService {
                 cardName: "NGUYEN THANH NHAN",
                 validM: 7,
                 validY: 15,
-                otp: "123456"
             },
             {
                 id: "c3",
@@ -74,8 +72,7 @@ class CardService {
                 cardNum: "9704194841945513",
                 cardName: "NGUYEN THANH TIN",
                 validM: 7,
-                validY: 15,
-                otp: "123456"
+                validY: 15,                
             },
             {
                 id: "c4",
@@ -84,8 +81,7 @@ class CardService {
                 cardNum: "9704193370791314",
                 cardName: "TRAN TRONG BANG",
                 validM: 7,
-                validY: 15,
-                otp: "123456"
+                validY: 15,              
             },
         ]
         return cards;
@@ -137,8 +133,7 @@ class CardService {
                     && bankCards[j].bank == payload.bank
                     && bankCards[j].cardName == payload.cardName
                     && visaCards[i].validM == payload.validM
-                    && visaCards[i].validY == payload.validY
-                    && bankCards[j].otp == payload.otp) {
+                    && visaCards[i].validY == payload.validY) {
                     return true;
                 }
             };

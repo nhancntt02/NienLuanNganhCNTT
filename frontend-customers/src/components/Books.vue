@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-2">
         <div v-for="(row, index) in rows" :key="index" class="row">
             <div v-for="(book, j) in row" :key="book._id"
                 class="book-container col-xl col-md-6 col-12 border rounded bg-light text-center">

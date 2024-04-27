@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-primary row py-4" >
+    <div class="bg-primary row py-2 mt-auto">
        <div class="col-5 justify-content-center d-flex">
             <p class="fs-3">SHOP H & N</p>
        </div>
@@ -13,6 +13,5 @@
                 <i class="fa-solid fa-envelope fs-4 m-2"></i>
             </div>
        </div>
-       
     </div>
 </template>
