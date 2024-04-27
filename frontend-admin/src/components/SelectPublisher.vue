@@ -1,6 +1,6 @@
 <template>
     <select class="form-select form-select-lg" v-model="publisherC" @change="onChange">
-        <option value="" selected disabled>Chọn nhà xuất bản</option>
+        <option value="" selected>Chọn nhà xuất bản</option>
         <option v-for="(publisher, index) in publishers" :value="publisher" :key="index">
             {{ publisher }}
         </option>

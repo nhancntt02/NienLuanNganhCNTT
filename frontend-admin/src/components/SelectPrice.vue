@@ -1,6 +1,6 @@
 <template>
     <select class="form-select form-select-lg" v-model="price" @change="onChange">
-        <option value="0"selected disabled >Chọn mức giá</option>
+        <option value="0"selected >Chọn mức giá</option>
         <option value="1">Dưới 10000</option>
         <option value="2">10000 - 30000</option>
         <option value="3">30000 - 100000</option>

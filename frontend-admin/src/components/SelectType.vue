@@ -1,6 +1,6 @@
 <template>
     <select class="form-select form-select-lg" v-model="typeC" @change="onChange">
-        <option value="" selected disabled>Chọn thể loại</option>
+        <option value="" selected>Chọn thể loại</option>
         <option v-for="(type, index) in types" :value="type" :key="index">{{ type }}</option>
     </select>
 </template>

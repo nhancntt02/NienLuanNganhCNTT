@@ -3,6 +3,12 @@ export default {
    props: {
        book: { type: Object, required: true },
    },
+    computed: {
+        formatPrice() {
+            return  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(this.book.gia);
+        }
+    },
+
 };
 </script>
 
@@ -28,9 +34,13 @@ export default {
                 <strong>Nhà xuất bản:</strong>
                 {{ book.nxb }}
             </div>
-            <div class="p-1">
+            <div class="p-1" >
                 <strong>Giá:</strong>
-                {{ book.gia }}
+                {{ formatPrice }}
+            </div>
+            <div class="p-1">
+                <strong>Số quyển:</strong>
+                {{ book.soquyen }}
             </div>
         </div>
        
