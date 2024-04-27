@@ -76,6 +76,7 @@ export default {
     methods: {
         async login() {
             try {
+                localStorage.removeItem('reloaded');
                 const user = await CustomerService.login(this.User);
                 sessionStorage.setItem('userName', user._id);
 

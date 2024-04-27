@@ -53,12 +53,13 @@ export default
         },
     },
     mounted() {
-        this.retrieveBooks();
+        
         if (localStorage.getItem('reloaded')) {
         } else {
             localStorage.setItem('reloaded', '1');
             location.reload();
         }
+        this.retrieveBooks();
     },
 }
 </script>
