@@ -3,6 +3,17 @@
         <div class="col-md-8">
             <SearchBook v-model="searchText"/>
         </div>
+        <div class="m-3 col-md-12 row ">
+            <div class="col-3">
+                <Publisher @choose:publisher="getPublisherC"></Publisher>
+            </div>
+            <div class="col-2">
+                <SelectType @choose:type="getTypeC"></SelectType>
+            </div>
+            <div class="col-3">
+                <SelectPrice @choose:price="getPrice"></SelectPrice>
+            </div>
+        </div>
         <div class="mt-3 col-md-5">
             <h4>
                 Tất cả sách
@@ -54,8 +65,8 @@
                     }"
                 >
                     <span class="mt-2 badge badge-warning">
-                        <i class="fas fa-edit"></i> Hiệu chỉnh</span
-                    >
+                        <i class="fas fa-edit"></i> Hiệu chỉnh
+                    </span>
                 </router-link>
             </div>
         </div>
@@ -67,17 +78,29 @@
  import BookCard from "@/components/BookCard.vue";
  import BookService from "@/services/book.service";
  import SearchBook from "@/components/InputSearch.vue";
+ import Publisher from "@/components/SelectPublisher.vue";
+ import SelectType from "@/components/SelectType.vue";
+ import SelectPrice from "@/components/SelectPrice.vue";
  export default {
     components: {
         SearchBook,
+        Publisher,
         BookList,
         BookCard,
+        SelectType,
+        SelectPrice
     },
     data() {
         return {
+            publishers: [],
             books: [],
+            booksT: [],
+            booksT1: [],
             activeIndex: -1,
             searchText: "",
+            selectPub: "",
+            typeC: "",
+            price: 0,
         };
     },
     watch: {
@@ -92,17 +115,30 @@
         bookStrings() {
             return this.books.map((book) => {
                 const {tensach} = book;
-                return [tensach].join();
+                return [this.removeAccents(tensach)].join().toLowerCase();
+            });
+        },
+        bookStrings2() {
+            return this.books.map((book) => {
+                const {nxb} = book;
+                return [nxb];
+            });
+        },
+        bookStrings3() {
+            return this.booksT.map((book) => {
+                const {theloai} = book;
+                return [theloai];
             });
         },
 
         // Trả về các contact có chứa thông tin cần tìm kiếm.
         filteredBooks() { 
             if(!this.searchText){
-                return this.books;
+                return this.bookSelect();
             }
+
             return this.books.filter((_book, index) => {
-                return this.bookStrings[index].includes(this.searchText)
+                return this.bookStrings[index].includes(this.removeAccents(this.searchText).toLowerCase());
             });
 
             
@@ -124,14 +160,97 @@
         },
     },
     methods: {
+        bookSelect() {
+            if(this.selectPub && this.typeC && this.price) {
+                this.booksT = this.books.filter((_book, index) => {
+                    return this.bookStrings2[index].includes(this.selectPub);
+                });
+                this.booksT1 = this.booksT.filter((_book, index) => {
+                    return this.bookStrings3[index].includes(this.typeC);
+                });
+                return this.opPrice(this.price);
+            } else if(this.selectPub && this.typeC){
+                this.booksT = this.books.filter((_book, index) => {
+                    return this.bookStrings2[index].includes(this.selectPub);
+                });
+                return this.booksT.filter((_book, index) => {
+                    return this.bookStrings3[index].includes(this.typeC);
+                });
+            } else if(this.selectPub && this.price) {
+                this.booksT1 = this.books.filter((_book, index) => {
+                    return this.bookStrings2[index].includes(this.selectPub);
+                });
+                return this.opPrice(this.price);
+            } else if(this.typeC && this.price) {
+                this.booksT1 = this.booksT.filter((_book, index) => {
+                    return this.bookStrings3[index].includes(this.typeC);
+                });
+                return this.opPrice(this.price); 
+            } else if(this.selectPub) {
+                return this.booksT.filter((_book, index) => {
+                    return this.bookStrings2[index].includes(this.selectPub);
+                });
+            } else if(this.typeC) {
+                return this.booksT.filter((_book, index) => {
+                    return this.bookStrings3[index].includes(this.typeC);
+                });
+            } else if(this.price) {
+                console.log(this.price);
+                return this.opPrice(this.price);
+            } else {
+                return this.books;
+            }
+        },
+        opPrice(price) {
+            switch (price) {
+                case '1':
+                    return this.booksT1.filter((book) => {
+                        return (parseInt(book.gia) < 10000);
+                    });
+                    break;
+                case '2':
+                return this.booksT1.filter((book) => {
+                        return (parseInt(book.gia) >= 10000 && parseInt(book.gia) < 30000);
+                    });
+                    break;
+                case '3':
+                return this.booksT1.filter((book) => {
+                        return (parseInt(book.gia) >= 30000 && parseInt(book.gia) < 100000);
+                    });
+                    break;
+                case '4':
+                return this.booksT1.filter((book) => {
+                        return (parseInt(book.gia) >= 100000);
+                    });
+                    break;
+                default:
+                    return this.books;
+                    break;
+            }
+        },
+        removeAccents(string){
+            return string.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+        },
         async retrieveBooks() {
             try {
                 this.books = await BookService.getAll();
+                this.booksT = this.books;
+                this.booksT1 = this.books;
             } catch (error) {
                 console.log(error);
             }
         },
-
+        getTypeC(data) {
+            this.typeC = data; 
+        },
+        getPublisherC(data) {
+            this.selectPub = data;
+        },
+        getPrice(data) {
+            this.price = data;
+        },
         async removeAllBooks() {
             if(confirm("Bạn muốn xóa tất cả Sach?")) {
                 try {
@@ -144,6 +263,9 @@
         },
 
         refreshList() {
+            this.price = 0;
+            this.typeC = "";
+            this.selectPub = "";
             this.retrieveBooks();
             this.activeIndex = -1;
         },
