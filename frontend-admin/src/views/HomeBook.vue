@@ -156,7 +156,6 @@
 
         filteredBooksCount() {
             return this.filteredBooks.length;
-            
         },
     },
     methods: {

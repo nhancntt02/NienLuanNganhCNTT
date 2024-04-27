@@ -72,7 +72,6 @@ export default {
                 rows.push(this.books.slice(start, end));
             }
             this.getRate();
-            console.log(this.rating);
             return rows;
         },
     },

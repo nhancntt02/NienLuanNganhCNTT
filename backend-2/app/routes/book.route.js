@@ -5,8 +5,15 @@ const order = require("../controllers/order.controller");
 const cart = require("../controllers/cart.controller");
 const notify = require("../controllers/notify.controller");
 const rate = require("../controllers/rate.controller");
+const card = require("../controllers/card.controller");
 const router = express.Router();
 
+router.route("/card")
+    .post(card.checkCard)
+    .delete(card.deleteAll)
+router.route("/card/:id")
+    .get(card.findAll)
+    .delete(card.delete)
 router.route("/rate")
     .post(rate.create)
     .put(rate.findOne)
