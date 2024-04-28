@@ -1,7 +1,7 @@
 <template>
     <div class="page row">
         <div class="col-md-8">
-            <SearchBook v-model="searchText"/>
+            <SearchBook v-model="searchText" />
         </div>
         <div class="m-3 col-md-12 row ">
             <div class="col-3">
@@ -17,36 +17,26 @@
         <div class="mt-3 col-md-5">
             <h4>
                 Tất cả sách
-                <router-link to="/" >
+                <router-link to="/">
                     <i class="fas fa-book"></i>
                 </router-link>
             </h4>
-            <BookList
-                v-if="filteredBooksCount > 0"
-                :books="filteredBooks"
-                v-model:activeIndex="activeIndex"
-            />
+            <BookList v-if="filteredBooksCount > 0" :books="filteredBooks" v-model:activeIndex="activeIndex" />
             <p v-else>Không có sách nào.</p>
-            
-        
-        <!-- ----------------------------------------------------------------- -->
-            <div class="mt-3 row justify-content-around agign-items-center">
+
+
+            <!-- ----------------------------------------------------------------- -->
+            <div class="mt-3 d-flex justify-content-around align-items-center">
                 <button class="btn btn-sm btn-primary" @click="refreshList()">
                     <i class="fas fa-redo"></i> Làm mới
                 </button>
 
-                <button 
-                    class="btn btn-sm btn-success"
-                    @click="goToAddBook"
-                >
+                <button class="btn btn-sm btn-success" @click="goToAddBook">
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
 
-                <button 
-                    class="btn btn-sm btn-danger"
-                    @click="removeAllBooks"
-                >
-                    <i class="fas fa-trash"></i>  Xóa tất cả
+                <button class="btn btn-sm btn-danger" @click="removeAllBooks">
+                    <i class="fas fa-trash"></i> Xóa tất cả
                 </button>
             </div>
         </div>
@@ -57,13 +47,11 @@
                     Thông tin chi tiết sách
                     <i class="fas fa-book"></i>
                 </h4>
-                <BookCard :book="activeBook"/>
-                <router-link
-                    :to="{
-                        name: 'book-edit',
-                        params: { id: activeBook._id }
-                    }"
-                >
+                <BookCard :book="activeBook" />
+                <router-link :to="{
+                    name: 'book-edit',
+                    params: { id: activeBook._id }
+                }">
                     <span class="mt-2 badge badge-warning">
                         <i class="fas fa-edit"></i> Hiệu chỉnh
                     </span>
@@ -71,17 +59,17 @@
             </div>
         </div>
     </div>
- </template>
- <script>
+</template>
+<script>
 
- import BookList from "@/components/BookList.vue";
- import BookCard from "@/components/BookCard.vue";
- import BookService from "@/services/book.service";
- import SearchBook from "@/components/InputSearch.vue";
- import Publisher from "@/components/SelectPublisher.vue";
- import SelectType from "@/components/SelectType.vue";
- import SelectPrice from "@/components/SelectPrice.vue";
- export default {
+import BookList from "@/components/BookList.vue";
+import BookCard from "@/components/BookCard.vue";
+import BookService from "@/services/book.service";
+import SearchBook from "@/components/InputSearch.vue";
+import Publisher from "@/components/SelectPublisher.vue";
+import SelectType from "@/components/SelectType.vue";
+import SelectPrice from "@/components/SelectPrice.vue";
+export default {
     components: {
         SearchBook,
         Publisher,
@@ -114,26 +102,26 @@
         // Chuyển các đối tượng contact thành chuỗi để tiện cho tìm kiếm.
         bookStrings() {
             return this.books.map((book) => {
-                const {tensach} = book;
+                const { tensach } = book;
                 return [this.removeAccents(tensach)].join().toLowerCase();
             });
         },
         bookStrings2() {
             return this.books.map((book) => {
-                const {nxb} = book;
+                const { nxb } = book;
                 return [nxb];
             });
         },
         bookStrings3() {
             return this.booksT.map((book) => {
-                const {theloai} = book;
+                const { theloai } = book;
                 return [theloai];
             });
         },
 
         // Trả về các contact có chứa thông tin cần tìm kiếm.
-        filteredBooks() { 
-            if(!this.searchText){
+        filteredBooks() {
+            if (!this.searchText) {
                 return this.bookSelect();
             }
 
@@ -141,7 +129,7 @@
                 return this.bookStrings[index].includes(this.removeAccents(this.searchText).toLowerCase());
             });
 
-            
+
         },
 
         activeBook() {
@@ -151,7 +139,7 @@
             else {
                 return this.filteredBooks[this.activeIndex];
             }
-            
+
         },
 
         filteredBooksCount() {
@@ -160,7 +148,7 @@
     },
     methods: {
         bookSelect() {
-            if(this.selectPub && this.typeC && this.price) {
+            if (this.selectPub && this.typeC && this.price) {
                 this.booksT = this.books.filter((_book, index) => {
                     return this.bookStrings2[index].includes(this.selectPub);
                 });
@@ -168,32 +156,32 @@
                     return this.bookStrings3[index].includes(this.typeC);
                 });
                 return this.opPrice(this.price);
-            } else if(this.selectPub && this.typeC){
+            } else if (this.selectPub && this.typeC) {
                 this.booksT = this.books.filter((_book, index) => {
                     return this.bookStrings2[index].includes(this.selectPub);
                 });
                 return this.booksT.filter((_book, index) => {
                     return this.bookStrings3[index].includes(this.typeC);
                 });
-            } else if(this.selectPub && this.price) {
+            } else if (this.selectPub && this.price) {
                 this.booksT1 = this.books.filter((_book, index) => {
                     return this.bookStrings2[index].includes(this.selectPub);
                 });
                 return this.opPrice(this.price);
-            } else if(this.typeC && this.price) {
+            } else if (this.typeC && this.price) {
                 this.booksT1 = this.booksT.filter((_book, index) => {
                     return this.bookStrings3[index].includes(this.typeC);
                 });
-                return this.opPrice(this.price); 
-            } else if(this.selectPub) {
+                return this.opPrice(this.price);
+            } else if (this.selectPub) {
                 return this.booksT.filter((_book, index) => {
                     return this.bookStrings2[index].includes(this.selectPub);
                 });
-            } else if(this.typeC) {
+            } else if (this.typeC) {
                 return this.booksT.filter((_book, index) => {
                     return this.bookStrings3[index].includes(this.typeC);
                 });
-            } else if(this.price) {
+            } else if (this.price) {
                 console.log(this.price);
                 return this.opPrice(this.price);
             } else {
@@ -208,17 +196,17 @@
                     });
                     break;
                 case '2':
-                return this.booksT1.filter((book) => {
+                    return this.booksT1.filter((book) => {
                         return (parseInt(book.gia) >= 10000 && parseInt(book.gia) < 30000);
                     });
                     break;
                 case '3':
-                return this.booksT1.filter((book) => {
+                    return this.booksT1.filter((book) => {
                         return (parseInt(book.gia) >= 30000 && parseInt(book.gia) < 100000);
                     });
                     break;
                 case '4':
-                return this.booksT1.filter((book) => {
+                    return this.booksT1.filter((book) => {
                         return (parseInt(book.gia) >= 100000);
                     });
                     break;
@@ -227,7 +215,7 @@
                     break;
             }
         },
-        removeAccents(string){
+        removeAccents(string) {
             return string.normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
                 .replace(/đ/g, 'd').replace(/Đ/g, 'D')
@@ -242,7 +230,7 @@
             }
         },
         getTypeC(data) {
-            this.typeC = data; 
+            this.typeC = data;
         },
         getPublisherC(data) {
             this.selectPub = data;
@@ -251,7 +239,7 @@
             this.price = data;
         },
         async removeAllBooks() {
-            if(confirm("Bạn muốn xóa tất cả Sach?")) {
+            if (confirm("Bạn muốn xóa tất cả Sach?")) {
                 try {
                     await BookService.deleteAll();
                     this.refreshList;
@@ -276,12 +264,12 @@
     mounted() {
         this.refreshList();
     },
- };
- </script>
+};
+</script>
 
- <style scoped>
- .page {
+<style scoped>
+.page {
     text-align: left;
     max-width: 1000px;
- }
- </style>
+}
+</style>
