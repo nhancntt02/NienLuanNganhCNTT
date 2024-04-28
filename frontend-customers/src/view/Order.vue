@@ -6,18 +6,27 @@
         <button class="btn btn-sm btn-outline-secondary" @click="changeType(0)">Cũ đến mới</button>
     </div>
     <div>
-        <ul class="list-group">
+        <ul class="list-group mb-2">
             <li v-for="(item, index) in sortOrder" :key="item._id" class="list-group-item">
                 <div class="d-flex justify-content-between">
-                    Mã đơn hàng: {{ item._id }} - Ngày đặt: {{ item.date }} - Tổng tiền: {{ item.total }}
-                    <i v-if="isOrderDetailVisible(item._id)" class="fa-solid fa-chevron-up mt-1"
-                        @click="toggleOrderDetail(item._id)"></i>
-                    <i v-else class="fa-solid fa-chevron-down mt-1" @click="toggleOrderDetail(item._id)"></i>
+                    <div >
+                        Mã đơn hàng: {{ item._id }} - Ngày đặt: {{ item.date }} - Tổng tiền: {{ item.total }}
+                    </div>
+                    <div>
+                        <span v-if="item.status == 'Đã giao hàng thành công'" class="me-3">
+                            {{ item.status }}
+                            <button class="btn btn-sm btn-success" @click="confirmPaymented(index)">Đã nhận hàng</button>
+                        </span>
+                        <span v-else class="me-3">{{ item.status }}</span>
+                        <i v-if="isOrderDetailVisible(item._id)" class="fa-solid fa-chevron-up mt-1"
+                            @click="toggleOrderDetail(item._id)"></i>
+                        <i v-else class="fa-solid fa-chevron-down mt-1" @click="toggleOrderDetail(item._id)"></i>
+                    </div>
                 </div>
                 <div v-if="isOrderDetailVisible(item._id)">
                     <hr>
                     <ul class="list-group list-group-flush">
-                        <OrderBookCard :books="item.bookId" :index="index" :orderId="item._id"/>
+                        <OrderBookCard :books="item.bookId" :index="index" :orderId="item._id" />
                     </ul>
                 </div>
             </li>
@@ -79,6 +88,23 @@ export default {
         isOrderDetailVisible(orderId) {
             return this.orderDetailsVisibility[orderId];
         },
+        async confirmPaymented(index){
+            if(confirm("Bạn có chắc chắn với hành động này không?")){
+                const updateOrder = {
+                    id: this.sortOrder[index]._id,
+                    status : "Đã mua hàng thành công",
+                }
+                try{
+                    const result = await OrderService.update(updateOrder.id,updateOrder);
+                    alert('Cập nhật trạng thái thành công!');
+                    location.reload();
+                }
+                catch(error){
+                    console.log(error);
+                }
+            }
+            console.log(this.sortOrder[index]);
+        }
     },
     created() {
         this.getOrder();

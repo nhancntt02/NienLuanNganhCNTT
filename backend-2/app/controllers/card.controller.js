@@ -7,7 +7,7 @@ exports.checkCard = async (req, res, next) => {
     const cardService = new CardService(MongoDB.client);
     try {
         const document = cardService.checkCard(req.body);
-        if (document) {
+        if (document && req.body.cardType == 1) {
             const exitsCard = await cardService.findByCardNum(req.body.cardNum);
             if (!exitsCard) {
                 await cardService.create(req.body);
@@ -49,9 +49,10 @@ exports.deleteAll = async (req, res, next) => {
 }
 exports.findAll = async (req, res, next) =>  {
     const userName = req.params.id;
+    cardType = req.query.cardType;
     const cardService = new CardService(MongoDB.client);
     try{
-        let document = await cardService.findAll(userName);
+        let document = await cardService.findAll(userName,cardType);
         return res.send(document);
     }catch(error)
     {

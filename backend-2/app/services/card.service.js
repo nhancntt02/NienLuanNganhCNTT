@@ -1,4 +1,4 @@
-const ApiError = require("../api-error");
+    const ApiError = require("../api-error");
 const { ObjectId } = require("mongodb");
 class CardService {
     constructor(client) {
@@ -10,37 +10,37 @@ class CardService {
                 id: "c1",
                 cardType: 1,
                 cardNum: "4456530000001005",
-                cardName: "HUYNH PHHUOC HAU",
-                expiryM: 12,
-                expiryY: 30,
-                cvv: 123,
+                cardName: "HUYNH PHUOC HAU",
+                expiryM: "12",
+                expiryY: '30',
+                cvv: "123",
             },
             {
                 id: "c2",
                 cardType: 1,
                 cardNum: "4456530000001096",
                 cardName: "NGUYEN THANH NHAN",
-                expiryM: 12,
-                expiryY: 30,
-                cvv: 123,
+                expiryM: "12",
+                expiryY: "30",
+                cvv: "123",
             },
             {
                 id: "c3",
                 cardType: 1,
                 cardNum: "5200000000001005",
                 cardName: "NGUYEN THANH TIN",
-                expiryM: 12,
-                expiryY: 30,
-                cvv: 123,
+                expiryM: "12",
+                expiryY: "30",
+                cvv: "123",
             },
             {
                 id: "c4",
                 cardType: 1,
                 cardNum: "5200000000001096",
                 cardName: "TRAN TRONG BANG",
-                expiryM: 12,
-                expiryY: 30,
-                cvv: 123,
+                expiryM: "12",
+                expiryY: "30",
+                cvv: "123",
             },
         ]
         return cards;
@@ -53,8 +53,8 @@ class CardService {
                 bank: "BIDV",
                 cardNum: "9704194841945510",
                 cardName: "HUYNH PHUOC HAU",
-                validM: 7,
-                validY: 15,              
+                validM: "07",
+                validY: "15",              
             },
             {
                 id: "c2",
@@ -62,8 +62,8 @@ class CardService {
                 bank: "VCB",
                 cardNum: "9704194841945511",
                 cardName: "NGUYEN THANH NHAN",
-                validM: 7,
-                validY: 15,
+                validM: "07",
+                validY: "15",
             },
             {
                 id: "c3",
@@ -71,8 +71,8 @@ class CardService {
                 bank: "VARB",
                 cardNum: "9704194841945513",
                 cardName: "NGUYEN THANH TIN",
-                validM: 7,
-                validY: 15,                
+                validM: "07",
+                validY: "15",                
             },
             {
                 id: "c4",
@@ -80,8 +80,8 @@ class CardService {
                 bank: "CTG",
                 cardNum: "9704193370791314",
                 cardName: "TRAN TRONG BANG",
-                validM: 7,
-                validY: 15,              
+                validM: "07",
+                validY: "15",              
             },
         ]
         return cards;
@@ -97,7 +97,6 @@ class CardService {
             expiryY: payload.expiryY,
             validM: payload.validM,
             validY: payload.validY,
-            expiryDate: payload.expiryDate,
         };
         Object.keys(card).forEach(
             (key) => card[key] === undefined && delete card[key]
@@ -132,8 +131,8 @@ class CardService {
                 if (bankCards[j].cardNum == payload.cardNum
                     && bankCards[j].bank == payload.bank
                     && bankCards[j].cardName == payload.cardName
-                    && visaCards[i].validM == payload.validM
-                    && visaCards[i].validY == payload.validY) {
+                    && bankCards[j].validM == payload.validM
+                    && bankCards[j].validY == payload.validY) {
                     return true;
                 }
             };
@@ -146,10 +145,14 @@ class CardService {
         );
         return card;
     }
-    async findAll(userName) {
-        return result = await this.Card.find(
-            { userName: userName },
+    async findAll(userName,cardType) {
+        const result = await this.Card.find(
+            {
+                userName:userName,
+                cardType:parseInt(cardType),
+            }
         ).toArray();
+        return result;
     }
     async delete(id) {
         return await this.Card.deleteOne(

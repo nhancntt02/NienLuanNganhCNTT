@@ -1,15 +1,16 @@
 <template>
     <li v-for="item in books" :key="item.bookId" class="list-group-item ms-5">
-        <div class="d-flex justify-content-between">
-            <router-link :to="{ name: 'bookinfo', params: { bookId: item.bookId } }"><img class="img-fluid"
+        <div class="row">
+            <router-link :to="{ name: 'bookinfo', params: { bookId: item.bookId } }" class="col"><img class="img-fluid"
                     style="height: 50px; width: 50px; margin: 0 auto;" :src="item.hinh"
                     :alt="item.tensach"></router-link>
-            <p>{{ item.tensach }}</p>
-            <p>{{ item.price }}</p>
-            <p>{{ item.quantity }}</p>
-            <p>{{ item.price * item.quantity }}</p>
-            <button class="btn btn-sm btn-outline-success" style="height: 30px;" @click="showDanhGia(item.bookId)">Đánh
-                giá</button>
+            <p class="col">{{ item.tensach }}</p>
+            <p class="col">{{ item.price }}</p>
+            <p class="col">{{ item.quantity }}</p>
+            <p class="col">{{ item.price * item.quantity }}</p>
+            <button class="btn btn-sm btn-outline-success col" style="height: 30px;" @click="showDanhGia(item.bookId)">
+                Đánh giá
+            </button>
         </div>
         <div v-if="danhgia == true && idDanhgia == item.bookId">
             <div v-if="star == 0">
