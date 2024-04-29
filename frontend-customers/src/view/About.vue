@@ -12,6 +12,8 @@
                 <br /> 
                 <strong>Twitter:</strong> <a class="text-decoration-none link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="https://twitter.com/"><i class="fa-brands fa-twitter"></i></a>
                 <br /> 
+                <strong>Số điện thoại:</strong> +84999999999
+                <br /> 
                 <strong>Địa chỉ 1:</strong> Khu II, Đ. 3 Tháng 2, Xuân Khánh, Ninh Kiều, Cần Thơ.
                 <br /> 
                 <strong>Địa chỉ 2:</strong> Trường CNTT&TT, Đại học Cần Thơ, Xuân Khánh, Ninh Kiều, Cần Thơ.
