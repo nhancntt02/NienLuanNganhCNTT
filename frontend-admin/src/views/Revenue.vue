@@ -48,6 +48,13 @@
         </ul>
     </div>
 </template>
+<style>
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
 <script>
 import OrderService from "@/services/order.service";
 import OrderBookCard from "@/components/OrderBookCard.vue";

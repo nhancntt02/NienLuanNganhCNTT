@@ -15,5 +15,8 @@ class OrderService{
     async update(id,data){
         return (await this.api.put(`/order/update/${id}`,data)).data; 
     }
+    async getOrderById(id) {
+      return (await this.api.get("/order/find?id=" +id)).data;
+    }
 }
 export default new OrderService();

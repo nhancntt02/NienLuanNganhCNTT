@@ -15,6 +15,10 @@
     Doanh thu
     <i class="fas fa-dollar"></i>
     </router-link>
+    <router-link :to="{ name: 'orderconfirm'}" class="nav-link">
+    Đơn hàng
+    <i class="fa-solid fa-box"></i>
+    </router-link>
     </li>
     </div>
     </nav>
