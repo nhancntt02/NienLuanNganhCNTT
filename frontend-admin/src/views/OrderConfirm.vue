@@ -1,14 +1,19 @@
 <template>
-    <h1>Đơn hàng chờ xác nhận</h1>
+    <h1>Quản lý đơn hàng</h1>
     <hr>
     <div>
+        <div class="mb-3">
+            <button @click="filerOrder" class="btn btn-outline-secondary">Đơn hàng chưa xác nhận</button>
+            <button @click="complete" class="btn btn-outline-info mx-2">Đơn hàng đã xác nhận</button>
+        </div>
         <ul class="list-group mb-2">
             <li v-for="item in ordersNotConfirm" :key="item._id" class="list-group-item d-flex justify-content-between">
                 <div>
                    Mã đơn hàng: {{ item._id }} - Ngày đặt: {{ item.date }} - Tổng tiền: {{ item.total }} 
                 </div>
                 
-                <button @click="confirmOrder(item._id)" class="btn btn-outline-success ">Xác nhận đơn hàng</button>
+                <button v-if="item.status=='Chờ xác nhận'" @click="confirmOrder(item._id)" class="btn btn-outline-success">Xác nhận đơn hàng</button>
+                <p v-else class="text-success">Đã giao hàng thành công</p>
             </li>
         </ul>
     </div>
@@ -31,6 +36,9 @@ export default {
         filerOrder() {
             this.ordersNotConfirm =  this.orders.filter(item => item.status == 'Chờ xác nhận');
         },
+        complete() {
+            this.ordersNotConfirm =  this.orders.filter(item => item.status == 'Đã giao hàng thành công');
+        },
         async confirmOrder(id) {
             try {
                 const order = {
@@ -46,6 +54,7 @@ export default {
             }
             
         },
+        
         refresh() {
             this.getOrders();
         }

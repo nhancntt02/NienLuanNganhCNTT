@@ -2,7 +2,7 @@
     <nav class="row navbar navbar-expand navbar-dark bg-primary py-3">
         <div class="col-3 d-flex justify-content-center">
             <router-link :to="{ name: 'homeBook' }" class="navbar-brand border rounded border-dark p-2">
-                H&N SHOP
+            H&N SHOP
             </router-link>
         </div>
         <div class="col"></div>
