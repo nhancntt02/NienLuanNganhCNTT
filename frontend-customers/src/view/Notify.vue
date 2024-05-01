@@ -1,6 +1,7 @@
 <template>
     <h1 class="my-3 text-center">Danh sách thông báo</h1>
-    <ul class="list-group">
+    <hr>
+    <ul v-if="notify[0]" class="list-group">
         <li 
             v-for="(item, index) in notify" :key="item._id"
             class="list-group-item"
@@ -27,6 +28,7 @@
             </div>
         </li>
     </ul>
+    <h3 v-else class="text-center"> Bạn chưa có thông báo nào!</h3>
 </template>
 <script>
     import NotifyService from "@/services/notify.service";
