@@ -97,7 +97,7 @@ export default {
                 try{
                     const result = await OrderService.update(updateOrder.id,updateOrder);
                     alert('Cập nhật trạng thái thành công!');
-                    location.reload();
+                    this.getOrder();
                 }
                 catch(error){
                     console.log(error);

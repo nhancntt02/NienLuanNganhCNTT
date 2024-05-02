@@ -54,6 +54,11 @@ const routes = [
         name: "about",
         component: () => import("@/view/About.vue"),
     },
+    {
+        path: "/support",
+        name: "support",
+        component: () => import("@/view/Support.vue"),
+    },
 ];
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

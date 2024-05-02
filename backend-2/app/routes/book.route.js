@@ -6,8 +6,20 @@ const cart = require("../controllers/cart.controller");
 const notify = require("../controllers/notify.controller");
 const rate = require("../controllers/rate.controller");
 const card = require("../controllers/card.controller");
+const sup = require("../controllers/support.controller");
 const router = express.Router();
 
+router.route("/support")
+    .post(sup.create)
+    .put(sup.update)
+    .delete(sup.deleteAll)
+    .get(sup.findAll)
+router.route("/support/:userName")
+    .get(sup.find)
+router.route("/support/find/:id")
+    .get(sup.findById)
+router.route("/support/:id")
+    .delete(sup.delete)
 router.route("/card")
     .post(card.checkCard)
     .delete(card.deleteAll)
