@@ -9,6 +9,9 @@ class OrderService{
     async getAll(){
         return (await this.api.get("/order")).data;
     }
+    async getSuccessOrder(){
+        return (await this.api.get("/ordersales")).data;
+    }
     async getUserOrder(id){
         return (await this.api.post(`/order/${id}`)).data; 
     }

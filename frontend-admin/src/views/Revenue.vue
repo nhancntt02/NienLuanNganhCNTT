@@ -77,7 +77,7 @@ export default {
     methods: {
         async fetchData() {
             try {
-                this.datas = await OrderService.getAll();
+                this.datas = await OrderService.getSuccessOrder();
             } catch (error) {
                 console.log(error);
             }

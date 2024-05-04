@@ -84,7 +84,8 @@ export default {
                 this.danhgia = true;
                 this.idDanhgia = id;
             }
-
+            this.star = 0;
+            this.cmt = "";
             const order = await OrderService.findById(this.orderId);
             if (order.rating == 1) {
                 try {
@@ -93,9 +94,10 @@ export default {
                         bookId: id,
                     };
                     var exitsRate = await RateService.findOne(data);
-                    console.log(exitsRate);
-                    this.star = exitsRate[0].rating;
-                    this.cmt = exitsRate[0].review;
+                    if(exitsRate[0].orderId === this.orderId){
+                        this.star = exitsRate[0].rating;
+                        this.cmt = exitsRate[0].review;
+                    }
                 } catch (error) {
                     console.log(error);
                 }

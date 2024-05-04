@@ -47,6 +47,11 @@ class OrderService
             {"username": username},
         ).toArray()
     }
+    async getSuccessOrder(){
+        return await this.Order.find(
+            {"status": "Đã mua hàng thành công"},
+        ).toArray()
+    }
     async create(payload){
         const order = this.extractOderData(payload);
         const result = await this.Order.insertOne(order);

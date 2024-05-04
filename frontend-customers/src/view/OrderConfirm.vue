@@ -402,6 +402,7 @@ export default {
             if (orderBook) {
                 orderBook.soquyen -= book.quantity;
                 if (orderBook.soquyen < 0) {
+                    orderBook.soquyen=0;
                     alert('Sách bạn muốn mua đã bán hết!');
                     this.$router.push({ name: "homeBook" });
                 }
